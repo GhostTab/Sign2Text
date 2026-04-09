@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sign2Text</string>
+
+    <string name="cd_hand_logo">App logo: open hand</string>
+    <string name="welcome_brand">Sign2Text</string>
+    <string name="welcome_headline">Sign recognition &amp; live letters</string>
+    <string name="welcome_tagline">Turn ASL alphabet signs into text—in real time, on your phone.</string>
+    <string name="welcome_body">Hold your hand steady in frame. We read the sign and show the best letter match, without sending video anywhere.</string>
+    <string name="welcome_cta">Let\'s start</string>
+    <string name="welcome_footer">Camera runs on this device only</string>
+
+    <string name="msg_preparing">Getting ready…</string>
+    <string name="msg_permission_prompt">Allow camera access to continue</string>
+    <string name="msg_camera_permission">Camera access is needed to read signs.</string>
+
+    <string name="err_setup">This build is missing files. Copy assets from your training output.</string>
+    <string name="err_camera">Camera couldn’t start. Try closing other apps that use the camera.</string>
+    <string name="err_tracking">Hand tracking hit an error. Try again.</string>
+
+    <string name="hint_idle">Point the camera at your hand</string>
+    <string name="hint_no_hand">Show your hand in the frame</string>
+    <string name="hint_uncertain">Hold the sign a bit longer</string>
+
+    <string name="mode_word_enable">Spell words</string>
+    <string name="mode_word_disable">Letters only</string>
+    <string name="cd_toggle_word_mode">Toggle spell-words mode</string>
+
+    <string name="word_label_spelling">Spelling</string>
+    <string name="word_label_match">Match</string>
+
+    <string name="word_spelling_empty">…</string>
+    <string name="word_button_confirm">Confirm</string>
+    <string name="word_formation_hint">Confirm with the button or open hand.</string>
+    <string name="word_empty">Nothing spelled yet.</string>
+    <string name="word_match">Word: %s</string>
+    <string name="word_no_match">No dictionary match for \"%s\".</string>
+    <string name="word_prefix_ok">Prefix OK — keep spelling or finish.</string>
+    <string name="word_no_dict">Dictionary not loaded.</string>
+</resources>

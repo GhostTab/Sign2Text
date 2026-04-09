@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Reference: soft UI + purple primary -->
+    <color name="primary">#6338E8</color>
+    <color name="primary_dark">#4C2DB5</color>
+    <color name="primary_light">#8B7AFF</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="welcome_bg">#FFFFFF</color>
+    <color name="text_headline">#1A1D26</color>
+    <color name="text_body">#6B7280</color>
+    <color name="text_muted_light">#9CA3AF</color>
+
+    <!-- Legacy aliases used in code / dark contexts -->
+    <color name="text_primary_on_dark">#F8FAFC</color>
+    <color name="text_secondary_on_dark">#CBD5E1</color>
+    <color name="text_muted_on_dark">#94A3B8</color>
+
+    <color name="camera_background">#0B0F14</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="text_primary_light_bg">#1A1D26</color>
+    <color name="text_secondary_light_bg">#6B7280</color>
+
+    <color name="accent">#6338E8</color>
+    <color name="on_accent">#FFFFFF</color>
+
+    <!-- Hand mark (soft “3D” purple) -->
+    <color name="logo_hand_fill">#7C3AED</color>
+    <color name="logo_hand_highlight">#A78BFA</color>
+    <color name="logo_ring_stroke">#E9D5FF</color>
+    <color name="logo_orb_fill">#FFFFFF</color>
+
+    <!-- Frosted chrome over camera -->
+    <color name="chrome_surface">#E6FFFFFF</color>
+    <color name="chrome_stroke">#33FFFFFF</color>
+
+    <!-- Word panel (Framer-style neutral surface on light bar) -->
+    <color name="word_panel_bg">#F4F4F5</color>
+    <color name="word_panel_stroke">#E4E4E7</color>
+    <color name="word_panel_divider">#E4E4E7</color>
+    <color name="word_label_muted">#71717A</color>
+    <color name="word_spelling_text">#18181B</color>
+    <color name="word_result_muted">#52525B</color>
+    <color name="word_toggle_outline">#E4E4E7</color>
+</resources>

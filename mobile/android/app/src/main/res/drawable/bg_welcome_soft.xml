@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Soft pastel blobs + white base (reference onboarding) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/welcome_bg" />
+        </shape>
+    </item>
+    <!-- Top-start: soft pink -->
+    <item
+        android:width="320dp"
+        android:height="320dp"
+        android:gravity="top|start"
+        android:left="-80dp"
+        android:top="-100dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerX="0.4"
+                android:centerY="0.4"
+                android:endColor="#00FFD6E8"
+                android:gradientRadius="200dp"
+                android:startColor="#66FFD6E8"
+                android:type="radial" />
+        </shape>
+    </item>
+    <!-- Top-end: soft blue -->
+    <item
+        android:width="300dp"
+        android:height="300dp"
+        android:gravity="top|end"
+        android:right="-60dp"
+        android:top="-80dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerX="0.6"
+                android:centerY="0.35"
+                android:endColor="#00DBEAFE"
+                android:gradientRadius="190dp"
+                android:startColor="#55DBEAFE"
+                android:type="radial" />
+        </shape>
+    </item>
+    <!-- Bottom-start: soft yellow -->
+    <item
+        android:width="280dp"
+        android:height="280dp"
+        android:bottom="-70dp"
+        android:gravity="bottom|start"
+        android:left="-50dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerX="0.45"
+                android:centerY="0.55"
+                android:endColor="#00FEF3C7"
+                android:gradientRadius="180dp"
+                android:startColor="#4DFEF3C7"
+                android:type="radial" />
+        </shape>
+    </item>
+    <!-- Bottom-end: soft mint -->
+    <item
+        android:width="260dp"
+        android:height="260dp"
+        android:bottom="-60dp"
+        android:gravity="bottom|end"
+        android:right="-40dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerX="0.55"
+                android:centerY="0.6"
+                android:endColor="#00D1FAE5"
+                android:gradientRadius="170dp"
+                android:startColor="#44D1FAE5"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

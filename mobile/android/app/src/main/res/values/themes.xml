@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light soft UI + purple primary (reference) -->
+    <style name="Theme.Sign2Text.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSecondary">@color/primary_light</item>
+        <item name="colorOnSecondary">@color/on_primary</item>
+        <item name="android:windowBackground">@color/welcome_bg</item>
+    </style>
+
+    <!-- Welcome / onboarding: light status bar -->
+    <style name="Theme.Sign2Text.Onboarding" parent="Theme.Sign2Text.Base">
+        <item name="android:statusBarColor">@color/welcome_bg</item>
+        <item name="android:navigationBarColor">@color/welcome_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Camera: dark content behind transparent status bar -->
+    <style name="Theme.Sign2Text.Camera" parent="Theme.Sign2Text.Base">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/camera_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- Legacy name → camera -->
+    <style name="Theme.Sign2Text" parent="Theme.Sign2Text.Camera" />
+
+    <!-- Spell-words panel: full-width primary CTA -->
+    <style name="Widget.Sign2Text.WordConfirm" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">44dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.Sign2Text.Button.Filled" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="iconTint">@color/on_primary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="elevation">8dp</item>
+    </style>
+</resources>

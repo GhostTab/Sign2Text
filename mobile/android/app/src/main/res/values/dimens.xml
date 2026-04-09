@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="word_panel_corner">14dp</dimen>
+    <dimen name="word_panel_padding">10dp</dimen>
+    <dimen name="word_panel_label_width">56dp</dimen>
+    <dimen name="word_toggle_corner">100dp</dimen>
+</resources>

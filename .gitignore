@@ -16,3 +16,9 @@ mobile/android/.gradle/
 mobile/android/build/
 mobile/android/**/build/
 
+.idea/
+mobile/.idea/
+.tools/
+.gradle/
+local.properties
+*.zip

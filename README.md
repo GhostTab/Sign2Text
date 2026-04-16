@@ -134,4 +134,11 @@ Notes:
 
 - Static-letter MVP; dynamic letters (J, Z) need motion or a temporal model.
 - Model outputs **logits**; the app applies **softmax(logits / T)** using `calibration.json`.
-# Sign2Text
+
+## Credits
+
+1. Christian Sadial Eba
+2. Zeben Nueva Ecija Realizan
+3. Raquel Villaflor Bayle
+4. Erica Cano Policarpio
+5. Rodgina Trogon Ybanez

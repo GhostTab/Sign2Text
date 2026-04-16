@@ -8,6 +8,34 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingStart="20dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="20dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCredits"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/cd_show_credits"
+            android:backgroundTint="@color/primary"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:text="@string/credits_button"
+            android:textColor="@color/on_primary"
+            android:textSize="18sp"
+            app:cornerRadius="20dp"
+            app:elevation="0dp"
+            app:rippleColor="@color/primary_light" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -66,25 +94,6 @@
                 android:textColor="@color/text_headline"
                 android:textSize="28sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:lineSpacingMultiplier="1.35"
-                android:text="@string/welcome_tagline"
-                android:textColor="@color/text_body"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:lineSpacingMultiplier="1.45"
-                android:text="@string/welcome_body"
-                android:textColor="@color/text_body"
-                android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>
 
@@ -108,14 +117,5 @@
             app:icon="@drawable/ic_arrow_forward_cta"
             app:iconGravity="textEnd"
             app:iconPadding="12dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/welcome_footer"
-            android:textColor="@color/text_muted_light"
-            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

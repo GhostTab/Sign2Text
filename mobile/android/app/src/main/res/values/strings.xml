@@ -7,6 +7,10 @@
     <string name="welcome_headline">Sign recognition &amp; live letters</string>
     <string name="welcome_tagline">Turn ASL alphabet signs into text—in real time, on your phone.</string>
     <string name="welcome_body">Hold your hand steady in frame. We read the sign and show the best letter match, without sending video anywhere.</string>
+    <string name="welcome_credits_list">Christian Sadial Eba\nZeben Nueva Ecija Realizan\nRaquel Villaflor Bayle\nErica Cano Policarpio\nRodgina Trogon Ybanez</string>
+    <string name="credits_button">?</string>
+    <string name="cd_show_credits">Show makers information</string>
+    <string name="credits_close">Close</string>
     <string name="welcome_cta">Let\'s start</string>
     <string name="welcome_footer">Camera runs on this device only</string>
 

@@ -12,7 +12,7 @@
     <string name="cd_show_credits">Show makers information</string>
     <string name="credits_close">Close</string>
     <string name="welcome_cta">Let\'s start</string>
-    <string name="welcome_footer">Camera runs on this device only</string>
+    <string name="welcome_footer">On-device · private · offline</string>
 
     <string name="msg_preparing">Getting ready…</string>
     <string name="msg_permission_prompt">Allow camera access to continue</string>
@@ -31,14 +31,24 @@
     <string name="cd_toggle_word_mode">Toggle spell-words mode</string>
 
     <string name="word_label_spelling">Spelling</string>
-    <string name="word_label_match">Match</string>
-
     <string name="word_spelling_empty">…</string>
-    <string name="word_button_confirm">Confirm</string>
-    <string name="word_formation_hint">Confirm with the button or open hand.</string>
+    <string name="word_result_empty">—</string>
+    <string name="word_label_result">Saved</string>
+    <string name="word_button_save">Save</string>
+    <string name="word_button_clear">Clear</string>
+    <string name="word_button_backspace">⌫</string>
+    <string name="cd_save_result">Save the spelled text result</string>
+    <string name="cd_clear_result">Clear spelling and saved result</string>
+    <string name="cd_backspace">Delete last letter</string>
+    <string name="word_formation_hint">Swipe up → Save when the word is done. ⌫ fixes a letter.</string>
+    <string name="sheet_swipe_up">Swipe up for Save &amp; Clear</string>
+    <string name="sheet_swipe_down">Swipe down for more camera</string>
+    <string name="cd_sheet_handle">Drag panel up or down</string>
     <string name="word_empty">Nothing spelled yet.</string>
-    <string name="word_match">Word: %s</string>
-    <string name="word_no_match">No dictionary match for \"%s\".</string>
-    <string name="word_prefix_ok">Prefix OK — keep spelling or finish.</string>
+    <string name="word_saved">Saved · %s</string>
+    <string name="word_cleared">Cleared — sign the next word</string>
+    <string name="word_match">Match · %s</string>
+    <string name="word_no_match">No match for \"%s\"</string>
+    <string name="word_prefix_ok">Prefix OK — keep going</string>
     <string name="word_no_dict">Dictionary not loaded.</string>
 </resources>

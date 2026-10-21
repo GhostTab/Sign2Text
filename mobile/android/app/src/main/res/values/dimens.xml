@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="word_panel_corner">14dp</dimen>
-    <dimen name="word_panel_padding">10dp</dimen>
-    <dimen name="word_panel_label_width">56dp</dimen>
+    <dimen name="word_panel_corner">28dp</dimen>
+    <dimen name="word_panel_padding">16dp</dimen>
+    <dimen name="word_panel_label_width">64dp</dimen>
     <dimen name="word_toggle_corner">100dp</dimen>
+    <dimen name="sheet_top_radius">28dp</dimen>
+    <dimen name="action_pill_height">48dp</dimen>
+    <dimen name="sheet_peek_letters">140dp</dimen>
+    <dimen name="sheet_peek_words">188dp</dimen>
 </resources>

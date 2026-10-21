@@ -28,7 +28,18 @@ class LetterSequenceAccumulator {
         previousDebounced = null
     }
 
-    /** Atomically reads the buffer and clears it (for finalize / word confirm). */
+    /** Removes the last letter so the user can re-sign a correction. */
+    fun deleteLastLetter(): Boolean = synchronized(this) {
+        if (buffer.isEmpty()) return@synchronized false
+        buffer.deleteCharAt(buffer.lastIndex)
+        previousDebounced = null
+        true
+    }
+
+    /**
+     * Atomically reads the buffer and clears it (for save).
+     * Keeps [previousDebounced] so the same on-screen letter is not appended again until it changes.
+     */
     fun takeSpellingAndClear(): String = synchronized(this) {
         val s = buffer.toString()
         buffer.clear()

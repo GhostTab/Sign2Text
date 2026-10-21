@@ -10,10 +10,11 @@ import android.util.Size
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -45,12 +46,21 @@ class MainActivity : ComponentActivity() {
     private lateinit var predLetter: TextView
     private lateinit var spellingText: TextView
     private lateinit var wordMatchText: TextView
+    private lateinit var savedResultText: TextView
     private lateinit var hintText: TextView
     private lateinit var wordFormationHint: TextView
     private lateinit var topMessage: TextView
-    private lateinit var wordModePanel: MaterialCardView
+    private lateinit var predictionCard: LinearLayout
+    private lateinit var wordPeekRow: LinearLayout
+    private lateinit var sheetExpandedDetails: LinearLayout
+    private lateinit var sheetSwipeHint: TextView
+    private lateinit var lettersOnlyHint: TextView
+    private lateinit var sheetHandleArea: LinearLayout
     private lateinit var toggleWordModeButton: MaterialButton
-    private lateinit var confirmWordButton: MaterialButton
+    private lateinit var saveResultButton: MaterialButton
+    private lateinit var clearResultButton: MaterialButton
+    private lateinit var backspaceButton: MaterialButton
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     private val executor = Executors.newSingleThreadExecutor()
 
@@ -79,19 +89,36 @@ class MainActivity : ComponentActivity() {
 
         previewView = findViewById(R.id.previewView)
         predLetter = findViewById(R.id.predLetter)
-        wordModePanel = findViewById(R.id.wordModePanel)
+        predictionCard = findViewById(R.id.predictionCard)
+        wordPeekRow = findViewById(R.id.wordPeekRow)
+        sheetExpandedDetails = findViewById(R.id.sheetExpandedDetails)
+        sheetSwipeHint = findViewById(R.id.sheetSwipeHint)
+        lettersOnlyHint = findViewById(R.id.lettersOnlyHint)
+        sheetHandleArea = findViewById(R.id.sheetHandleArea)
         spellingText = findViewById(R.id.spellingText)
         wordMatchText = findViewById(R.id.wordMatchText)
+        savedResultText = findViewById(R.id.savedResultText)
         hintText = findViewById(R.id.hintText)
         wordFormationHint = findViewById(R.id.wordFormationHint)
         topMessage = findViewById(R.id.topMessage)
         toggleWordModeButton = findViewById(R.id.toggleWordModeButton)
-        confirmWordButton = findViewById(R.id.confirmWordButton)
+        saveResultButton = findViewById(R.id.saveResultButton)
+        clearResultButton = findViewById(R.id.clearResultButton)
+        backspaceButton = findViewById(R.id.backspaceButton)
+
+        setupBottomSheet()
+
         toggleWordModeButton.setOnClickListener {
             setWordModeEnabled(!wordModeEnabled)
         }
-        confirmWordButton.setOnClickListener {
-            executor.execute { finalizeSpelledWord() }
+        saveResultButton.setOnClickListener {
+            executor.execute { saveSpelledResult() }
+        }
+        clearResultButton.setOnClickListener {
+            executor.execute { clearSpellingAndResult() }
+        }
+        backspaceButton.setOnClickListener {
+            executor.execute { backspaceLastLetter() }
         }
         applyWordModeUi()
 
@@ -135,7 +162,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initializePipeline() {
         setTopMessage(getString(R.string.msg_preparing), true)
-        hintText.setText(R.string.hint_idle)
+        setLiveHint(R.string.hint_idle)
 
         try {
             labelMap = LabelMap.fromJson(AssetUtils.readAssetText(this, "label_map.json"))
@@ -236,15 +263,62 @@ class MainActivity : ComponentActivity() {
         previewView.post { startCamera() }
     }
 
+    private fun setupBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(predictionCard)
+        bottomSheetBehavior.isFitToContents = true
+        bottomSheetBehavior.isHideable = false
+        bottomSheetBehavior.skipCollapsed = false
+        bottomSheetBehavior.isDraggable = true
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                updateSheetChromeForState(newState)
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+        })
+        sheetHandleArea.setOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        updateSheetChromeForState(BottomSheetBehavior.STATE_COLLAPSED)
+    }
+
+    private fun updateSheetChromeForState(state: Int) {
+        val expanded = state == BottomSheetBehavior.STATE_EXPANDED
+        if (wordModeEnabled) {
+            // Keep details laid out so peekHeight clips them; swipe up reveals Save/Clear.
+            sheetExpandedDetails.visibility = View.VISIBLE
+            sheetSwipeHint.visibility = View.VISIBLE
+            sheetSwipeHint.setText(
+                if (expanded) R.string.sheet_swipe_down else R.string.sheet_swipe_up
+            )
+        } else {
+            sheetExpandedDetails.visibility = View.GONE
+            sheetSwipeHint.visibility = View.GONE
+        }
+    }
+
     private fun setWordModeEnabled(enabled: Boolean) {
         wordModeEnabled = enabled
         letterAccumulator.clear()
         openPalmConfirm.reset()
         applyWordModeUi()
+        // Spell mode starts collapsed so the camera stays large; swipe up for Save/Clear.
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        updateSheetChromeForState(BottomSheetBehavior.STATE_COLLAPSED)
     }
 
     private fun applyWordModeUi() {
-        wordModePanel.visibility = if (wordModeEnabled) View.VISIBLE else View.GONE
+        val peek = resources.getDimensionPixelSize(
+            if (wordModeEnabled) R.dimen.sheet_peek_words else R.dimen.sheet_peek_letters
+        )
+        bottomSheetBehavior.peekHeight = peek
+        wordPeekRow.visibility = if (wordModeEnabled) View.VISIBLE else View.GONE
+        lettersOnlyHint.visibility = if (wordModeEnabled) View.GONE else View.VISIBLE
         toggleWordModeButton.setText(
             if (wordModeEnabled) R.string.mode_word_disable else R.string.mode_word_enable
         )
@@ -252,11 +326,23 @@ class MainActivity : ComponentActivity() {
         if (!wordModeEnabled) {
             wordMatchText.text = ""
             spellingText.setText(R.string.word_spelling_empty)
+            savedResultText.setText(R.string.word_result_empty)
+            sheetExpandedDetails.visibility = View.GONE
+            sheetSwipeHint.visibility = View.GONE
+        } else {
+            updateSheetChromeForState(bottomSheetBehavior.state)
         }
     }
 
+    /** Expand sheet so Save/Clear are reachable after a successful save via open palm. */
+    private fun expandSheetForActions() {
+        if (!wordModeEnabled) return
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        updateSheetChromeForState(BottomSheetBehavior.STATE_EXPANDED)
+    }
+
     private fun applyWordToggleAppearance() {
-        val strokePx = (resources.displayMetrics.density * 1f).toInt().coerceAtLeast(1)
+        val strokePx = (resources.displayMetrics.density * 1.5f).toInt().coerceAtLeast(1)
         if (wordModeEnabled) {
             toggleWordModeButton.strokeWidth = 0
             toggleWordModeButton.strokeColor = ColorStateList.valueOf(Color.TRANSPARENT)
@@ -307,6 +393,7 @@ class MainActivity : ComponentActivity() {
         }
 
         previewView.scaleType = PreviewView.ScaleType.FILL_CENTER
+        previewView.implementationMode = PreviewView.ImplementationMode.PERFORMANCE
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -324,7 +411,7 @@ class MainActivity : ComponentActivity() {
                 val analysis = ImageAnalysis.Builder()
                     .setTargetRotation(rotation)
                     .setOutputImageRotationEnabled(true)
-                    .setTargetResolution(Size(640, 480))
+                    .setTargetResolution(Size(1280, 720))
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .build()
@@ -366,7 +453,7 @@ class MainActivity : ComponentActivity() {
 
                 runOnUiThread {
                     setTopMessage(null, false)
-                    hintText.setText(R.string.hint_idle)
+                    setLiveHint(R.string.hint_idle)
                 }
             } catch (e: Exception) {
                 Log.e("Sign2Text", "Camera bind failed", e)
@@ -387,7 +474,7 @@ class MainActivity : ComponentActivity() {
                 }
                 runOnUiThread {
                     predLetter.text = "—"
-                    hintText.setText(R.string.hint_no_hand)
+                    setLiveHint(R.string.hint_no_hand)
                 }
                 return
             }
@@ -423,14 +510,13 @@ class MainActivity : ComponentActivity() {
 
             val debounced = displayDebouncer.update(showLetter, letter)
 
-            val finalizedRaw: String? = if (wordModeEnabled) {
+            // Spelling only accumulates here. Do NOT auto-save on open palm — many letter
+            // poses look "open" and were clearing the word before the user finished.
+            // User finishes a word with the Save button (swipe sheet up).
+            if (wordModeEnabled) {
                 letterAccumulator.onDebouncedLetter(debounced)
-                val openPalmThisFrame = OpenPalmDetector.isOpenPalm(landmarks)
-                val confirmedByOpenPalm = openPalmConfirm.update(openPalmThisFrame)
-                if (confirmedByOpenPalm) letterAccumulator.takeSpellingAndClear() else null
-            } else {
-                null
             }
+            val finalizedRaw: String? = null
 
             val now = SystemClock.uptimeMillis()
             if (now - lastLogPredictionMs >= 250L) {
@@ -452,12 +538,13 @@ class MainActivity : ComponentActivity() {
                     spellingText.text =
                         if (spell.isEmpty()) getString(R.string.word_spelling_empty) else spell
                     if (finalizedRaw != null) {
-                        wordMatchText.text = wordResultMessage(finalizedRaw)
+                        applySavedResult(finalizedRaw)
+                        expandSheetForActions()
                     }
                 }
                 when (debounced) {
-                    "?" -> hintText.setText(R.string.hint_uncertain)
-                    else -> hintText.text = ""
+                    "?" -> setLiveHint(R.string.hint_uncertain)
+                    else -> setLiveHint(null)
                 }
             }
         } catch (e: Exception) {
@@ -473,17 +560,62 @@ class MainActivity : ComponentActivity() {
     }
 
     /**
-     * Called on [executor] (same thread as [onHandResult]) so it does not race [letterAccumulator].
+     * Save path (button or open palm): store spelling, show dictionary match, clear live buffer.
+     * Called on [executor] so it does not race [letterAccumulator].
      */
-    private fun finalizeSpelledWord() {
+    private fun saveSpelledResult() {
         if (!wordModeEnabled) return
         val raw = letterAccumulator.takeSpellingAndClear()
+        openPalmConfirm.reset()
         runOnUiThread {
             if (!wordModeEnabled) return@runOnUiThread
-            wordMatchText.text = wordResultMessage(raw)
+            applySavedResult(raw)
+            spellingText.setText(R.string.word_spelling_empty)
+            if (raw.isNotEmpty()) expandSheetForActions()
+        }
+    }
+
+    private fun setLiveHint(resId: Int?) {
+        // Keep a short centered prompt under the letter chip in letters-only mode.
+        val text = when (resId) {
+            null -> getString(R.string.hint_idle)
+            else -> getString(resId)
+        }
+        hintText.text = if (resId == null) "" else text
+        lettersOnlyHint.text = text
+        lettersOnlyHint.visibility = if (wordModeEnabled) View.GONE else View.VISIBLE
+    }
+
+    private fun applySavedResult(raw: String) {
+        if (raw.isEmpty()) {
+            wordMatchText.text = getString(R.string.word_empty)
+            return
+        }
+        savedResultText.text = raw
+        wordMatchText.text = wordResultMessage(raw)
+    }
+
+    private fun backspaceLastLetter() {
+        if (!wordModeEnabled) return
+        letterAccumulator.deleteLastLetter()
+        openPalmConfirm.reset()
+        runOnUiThread {
+            if (!wordModeEnabled) return@runOnUiThread
             val spell = letterAccumulator.spelling
             spellingText.text =
                 if (spell.isEmpty()) getString(R.string.word_spelling_empty) else spell
+        }
+    }
+
+    private fun clearSpellingAndResult() {
+        if (!wordModeEnabled) return
+        letterAccumulator.clear()
+        openPalmConfirm.reset()
+        runOnUiThread {
+            if (!wordModeEnabled) return@runOnUiThread
+            spellingText.setText(R.string.word_spelling_empty)
+            savedResultText.setText(R.string.word_result_empty)
+            wordMatchText.text = getString(R.string.word_cleared)
         }
     }
 

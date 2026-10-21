@@ -13,27 +13,27 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:paddingStart="20dp"
-        android:paddingTop="14dp"
+        android:paddingTop="16dp"
         android:paddingEnd="20dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCredits"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:contentDescription="@string/cd_show_credits"
-            android:backgroundTint="@color/primary"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:padding="0dp"
             android:text="@string/credits_button"
-            android:textColor="@color/on_primary"
+            android:textColor="@color/primary"
             android:textSize="18sp"
             app:cornerRadius="20dp"
-            app:elevation="0dp"
-            app:rippleColor="@color/primary_light" />
+            app:rippleColor="@color/primary_light"
+            app:strokeColor="@color/word_toggle_outline"
+            app:strokeWidth="1.5dp" />
     </LinearLayout>
 
     <ScrollView
@@ -51,11 +51,10 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingStart="32dp"
-            android:paddingTop="48dp"
+            android:paddingTop="56dp"
             android:paddingEnd="32dp"
             android:paddingBottom="24dp">
 
-            <!-- Hand hero (soft 3D mark + glass disc) -->
             <FrameLayout
                 android:layout_width="168dp"
                 android:layout_height="168dp"
@@ -75,25 +74,35 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:letterSpacing="0.1"
+                android:layout_marginTop="28dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.12"
                 android:text="@string/welcome_brand"
+                android:textAllCaps="true"
                 android:textColor="@color/primary"
-                android:textSize="13sp"
-                android:textAllCaps="true" />
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center"
                 android:letterSpacing="-0.02"
-                android:lineSpacingMultiplier="1.08"
+                android:lineSpacingMultiplier="1.1"
                 android:text="@string/welcome_headline"
                 android:textColor="@color/text_headline"
-                android:textSize="28sp" />
+                android:textSize="30sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.25"
+                android:text="@string/welcome_tagline"
+                android:textColor="@color/text_body"
+                android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>
 
@@ -103,19 +112,28 @@
         android:orientation="vertical"
         android:paddingStart="28dp"
         android:paddingEnd="28dp"
-        android:paddingBottom="32dp">
+        android:paddingBottom="36dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnContinue"
             style="@style/Widget.Sign2Text.Button.Filled"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="56dp"
             android:paddingStart="20dp"
             android:paddingEnd="16dp"
             android:text="@string/welcome_cta"
-            app:cornerRadius="18dp"
+            app:cornerRadius="28dp"
             app:icon="@drawable/ic_arrow_forward_cta"
             app:iconGravity="textEnd"
             app:iconPadding="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="@string/welcome_footer"
+            android:textColor="@color/text_muted_light"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

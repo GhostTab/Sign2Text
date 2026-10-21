@@ -1,256 +1,354 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/camera_background">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:implementationMode="compatible"
-        app:scaleType="fillCenter" />
+        android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_gravity="top"
-        android:background="@drawable/bg_camera_bottom_scrim"
-        android:rotation="180" />
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:implementationMode="performance"
+            app:scaleType="fillCenter" />
 
-    <!-- Full-width top bar (not a floating card) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@drawable/bg_header_full"
-        android:elevation="6dp"
-        android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingTop="28dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="12dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_camera_bottom_scrim"
+            android:rotation="180" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_camera_bottom_scrim" />
+
+        <!-- Frosted top bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/cd_hand_logo"
-                android:src="@drawable/asl_logo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.04"
-                android:text="@string/welcome_brand"
-                android:textColor="@color/text_headline"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggleWordModeButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:contentDescription="@string/cd_toggle_word_mode"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:minHeight="36dp"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:text="@string/mode_word_enable"
-                android:textColor="@color/primary"
-                android:textSize="13sp"
-                app:cornerRadius="@dimen/word_toggle_corner"
-                app:rippleColor="@color/primary_light"
-                app:strokeColor="@color/word_toggle_outline"
-                app:strokeWidth="1dp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/topMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_message_full"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="3"
-            android:paddingStart="12dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/text_headline"
-            android:textSize="14sp"
-            android:visibility="gone"
-            tools:text="Getting ready…"
-            tools:visibility="visible" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bg_camera_bottom_scrim" />
-
-    <!-- Full-width bottom bar (edge-to-edge, not a card) -->
-    <LinearLayout
-        android:id="@+id/predictionCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bg_letter_bar"
-        android:elevation="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="12dp">
-
-        <TextView
-            android:id="@+id/predLetter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:includeFontPadding="false"
-            android:text="—"
-            android:textColor="@color/primary"
-            android:textSize="52sp"
-            tools:text="A" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/wordModePanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/word_panel_bg"
-            app:cardCornerRadius="@dimen/word_panel_corner"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/word_panel_stroke"
-            app:strokeWidth="1dp"
-            tools:visibility="visible">
+            android:layout_gravity="top"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_header_full"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:paddingStart="14dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@string/cd_hand_logo"
+                    android:src="@drawable/asl_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.02"
+                    android:text="@string/welcome_brand"
+                    android:textColor="@color/text_headline"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/toggleWordModeButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:contentDescription="@string/cd_toggle_word_mode"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="36dp"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="@string/mode_word_enable"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    app:cornerRadius="@dimen/word_toggle_corner"
+                    app:rippleColor="@color/primary_light"
+                    app:strokeColor="@color/word_toggle_outline"
+                    app:strokeWidth="1.5dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/topMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_message_full"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/text_headline"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:text="Getting ready…"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Swipeable bottom sheet: collapsed = camera-first; expanded = Save/Clear -->
+    <LinearLayout
+        android:id="@+id/predictionCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_sheet"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="14dp"
+        app:behavior_fitToContents="true"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="@dimen/sheet_peek_letters"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:id="@+id/sheetHandleArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_sheet_handle"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="6dp">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:background="@drawable/bg_sheet_handle" />
+        </LinearLayout>
+
+        <!-- Peek: centered letter + hint (letters mode) or letter + spelling (spell mode) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/predLetter"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_letter_chip"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="—"
+                android:textColor="@color/primary"
+                android:textSize="30sp"
+                tools:text="A" />
+
+            <TextView
+                android:id="@+id/lettersOnlyHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/hint_idle"
+                android:textColor="@color/text_secondary_light_bg"
+                android:textSize="14sp"
+                tools:text="Show your hand in the frame" />
+
+            <LinearLayout
+                android:id="@+id/wordPeekRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:padding="@dimen/word_panel_padding">
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:letterSpacing="0.08"
+                    android:text="@string/word_label_spelling"
+                    android:textAllCaps="true"
+                    android:textColor="@color/word_label_muted"
+                    android:textSize="10sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_spelling_field"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/word_panel_label_width"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:letterSpacing="0.1"
-                        android:text="@string/word_label_spelling"
-                        android:textAllCaps="true"
-                        android:textColor="@color/word_label_muted"
-                        android:textSize="10sp" />
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp">
 
                     <TextView
                         android:id="@+id/spellingText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:fontFamily="sans-serif-medium"
-                        android:gravity="end"
+                        android:gravity="center"
                         android:includeFontPadding="false"
                         android:letterSpacing="0.08"
+                        android:maxLines="1"
                         android:text="@string/word_spelling_empty"
                         android:textColor="@color/word_spelling_text"
-                        android:textSize="17sp"
+                        android:textSize="18sp"
                         tools:text="HELLO" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/backspaceButton"
+                        style="@style/Widget.Sign2Text.WordBackspace"
+                        android:layout_width="44dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/cd_backspace"
+                        android:text="@string/word_button_backspace"
+                        android:textSize="16sp" />
                 </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/word_panel_divider" />
+        <TextView
+            android:id="@+id/sheetSwipeHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/sheet_swipe_up"
+            android:textColor="@color/word_label_muted"
+            android:textSize="11sp"
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:minHeight="20dp"
-                    android:orientation="horizontal">
+        <!-- Expanded-only: saved + actions -->
+        <LinearLayout
+            android:id="@+id/sheetExpandedDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="gone">
 
-                    <TextView
-                        android:layout_width="@dimen/word_panel_label_width"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:letterSpacing="0.1"
-                        android:text="@string/word_label_match"
-                        android:textAllCaps="true"
-                        android:textColor="@color/word_label_muted"
-                        android:textSize="10sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:text="@string/word_label_result"
+                android:textAllCaps="true"
+                android:textColor="@color/word_label_muted"
+                android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/wordMatchText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:fontFamily="sans-serif"
-                        android:gravity="end"
-                        android:maxLines="2"
-                        android:textColor="@color/word_result_muted"
-                        android:textSize="13sp"
-                        tools:text="Word: hello" />
-                </LinearLayout>
+            <TextView
+                android:id="@+id/savedResultText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.04"
+                android:maxLines="2"
+                android:text="@string/word_result_empty"
+                android:textColor="@color/word_spelling_text"
+                android:textSize="18sp"
+                tools:text="HELLO" />
 
-                <TextView
-                    android:id="@+id/wordFormationHint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif"
-                    android:maxLines="2"
-                    android:text="@string/word_formation_hint"
-                    android:textColor="@color/word_result_muted"
-                    android:textSize="11sp" />
+            <TextView
+                android:id="@+id/wordMatchText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:textColor="@color/word_result_muted"
+                android:textSize="13sp"
+                tools:text="Match · hello" />
+
+            <TextView
+                android:id="@+id/wordFormationHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:text="@string/word_formation_hint"
+                android:textColor="@color/word_label_muted"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/confirmWordButton"
-                    style="@style/Widget.Sign2Text.WordConfirm"
-                    android:layout_width="match_parent"
+                    android:id="@+id/saveResultButton"
+                    style="@style/Widget.Sign2Text.WordSave"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/word_button_confirm" />
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1.2"
+                    android:contentDescription="@string/cd_save_result"
+                    android:text="@string/word_button_save" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearResultButton"
+                    style="@style/Widget.Sign2Text.WordClear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/cd_clear_result"
+                    android:text="@string/word_button_clear" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/hintText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
-            android:lineSpacingMultiplier="1.2"
             android:text="@string/hint_idle"
             android:textColor="@color/text_secondary_light_bg"
-            android:textSize="13sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

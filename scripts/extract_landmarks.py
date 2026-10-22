@@ -46,6 +46,16 @@ def main():
         default="",
         help="Path to hand_landmarker.task (required when mediapipe.tasks API is used).",
     )
+    ap.add_argument(
+        "--append",
+        action="store_true",
+        help="Keep existing CSV rows and skip images whose path is already stored.",
+    )
+    ap.add_argument(
+        "--letters",
+        default="",
+        help="Only these letters, e.g. WXYZ. Empty means A through Z.",
+    )
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument(
         "--progress_every",
@@ -69,6 +79,13 @@ def main():
 
     # group = parent path under input_dir (e.g. A or A/subject1); path = relative file path for ordering
     header = ["label", "group", "path"] + [f"f{i}" for i in range(63)]
+    existing_paths: set[str] = set()
+    if args.append and output_csv.exists() and output_csv.stat().st_size > 0:
+        with open(output_csv, newline="", encoding="utf-8") as existing:
+            for row in csv.DictReader(existing):
+                if row.get("path"):
+                    existing_paths.add(row["path"])
+        print(f"Append mode: {len(existing_paths)} paths already in {output_csv}", flush=True)
 
     per_class_found = {l: 0 for l in LETTERS}
     per_class_written = {l: 0 for l in LETTERS}
@@ -111,11 +128,15 @@ def main():
     t0 = time.perf_counter()
     total_done = 0
 
-    with hands_ctx as hands, open(output_csv, "w", newline="", encoding="utf-8") as f:
+    write_header = not (args.append and existing_paths)
+    open_mode = "a" if args.append and output_csv.exists() and output_csv.stat().st_size > 0 else "w"
+    with hands_ctx as hands, open(output_csv, open_mode, newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(header)
+        if write_header:
+            writer.writerow(header)
 
-        for letter in LETTERS:
+        letters = [c for c in args.letters.upper() if c in LETTERS] or LETTERS
+        for letter in letters:
             class_dir = input_dir / letter
             if not class_dir.exists():
                 continue
@@ -130,6 +151,10 @@ def main():
             print(f"[{letter}] processing {len(imgs)} images…", flush=True)
 
             for img_path in imgs:
+                rel = img_path.relative_to(input_dir)
+                path_str = str(rel).replace("\\", "/")
+                if path_str in existing_paths:
+                    continue
                 total_done += 1
                 img_bgr = cv2.imread(str(img_path))
                 if img_bgr is None:
@@ -152,9 +177,7 @@ def main():
                     lm = result.hand_landmarks[0]
                     pts = np.array([[p.x, p.y, p.z] for p in lm], dtype=np.float32)
                 feats = normalize_landmarks_xyz(pts)
-                rel = img_path.relative_to(input_dir)
                 group_str = str(rel.parent).replace("\\", "/")
-                path_str = str(rel).replace("\\", "/")
 
                 writer.writerow([letter, group_str, path_str] + feats.tolist())
                 per_class_written[letter] += 1

@@ -2,6 +2,7 @@ package com.sign2text
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.hardware.camera2.CaptureRequest
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -9,17 +10,25 @@ import android.util.Rational
 import android.util.Size
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
+import androidx.camera.camera2.interop.Camera2Interop
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceOrientedMeteringPointFactory
 import androidx.camera.core.UseCaseGroup
 import androidx.camera.core.ViewPort
+import androidx.camera.core.resolutionselector.ResolutionSelector
+import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
@@ -32,17 +41,21 @@ import com.google.mediapipe.tasks.vision.handlandmarker.HandLandmarker.HandLandm
 import com.google.mediapipe.framework.image.MPImage
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
+@androidx.camera.camera2.interop.ExperimentalCamera2Interop
 class MainActivity : ComponentActivity() {
     private companion object {
-        /** Front camera mirrors analysis to match selfie preview; back camera uses sensor orientation as-is. */
-        const val USE_FRONT_CAMERA = false
-        const val MIN_CONFIDENCE_TO_SHOW = 0.52f
-        const val MIN_MARGIN_TOP1_TOP2 = 0.08f
+        /** Below this, the frame is too unsure to show a letter. */
+        const val MIN_CONFIDENCE_TO_SHOW = 0.60f
+        /** Top letter must lead the runner-up by this much, or the screen stays blank. */
+        const val MIN_MARGIN_TOP1_TOP2 = 0.18f
+        const val INDEX_TIP = 8
     }
 
     private lateinit var previewView: PreviewView
+    private lateinit var cameraTapTarget: View
     private lateinit var predLetter: TextView
     private lateinit var spellingText: TextView
     private lateinit var wordMatchText: TextView
@@ -74,20 +87,27 @@ class MainActivity : ComponentActivity() {
     private var smoother: Smoother? = null
     private var maxEntropyThreshold = 2.75f
     private var calibrationTemperature = 1f
-    private val majorityVote = MajorityVoteBuffer(windowSize = 7, minVotes = 4)
-    private val displayDebouncer = LetterDisplayDebouncer(framesToConfirm = 5, framesToClear = 2)
-    private val letterAccumulator = LetterSequenceAccumulator()
+    private val displayDebouncer = LetterDisplayDebouncer(framesToConfirm = 2, framesToClear = 3)
+    private val zStrokeDetector = ZStrokeDetector()
+    private val letterAccumulator = LetterSequenceAccumulator(framesToRecord = 6)
     private val openPalmConfirm = OpenPalmConfirmDetector()
     private var wordDictionary: WordDictionary? = null
 
     private var lastLogPredictionMs = 0L
     private var lastLoggedDisplayedLetter: String? = null
 
+    /** Front camera mirrors analysis to match the selfie preview. Back camera stays as the sensor sees it. */
+    @Volatile
+    private var useFrontCamera = false
+
+    private var cameraSwitchInFlight = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         previewView = findViewById(R.id.previewView)
+        cameraTapTarget = findViewById(R.id.cameraTapTarget)
         predLetter = findViewById(R.id.predLetter)
         predictionCard = findViewById(R.id.predictionCard)
         wordPeekRow = findViewById(R.id.wordPeekRow)
@@ -107,6 +127,7 @@ class MainActivity : ComponentActivity() {
         backspaceButton = findViewById(R.id.backspaceButton)
 
         setupBottomSheet()
+        setupCameraFlip()
 
         toggleWordModeButton.setOnClickListener {
             setWordModeEnabled(!wordModeEnabled)
@@ -218,7 +239,7 @@ class MainActivity : ComponentActivity() {
             classifier = null
             return
         }
-        if (cl.inputDim == 83 && fn == null) {
+        if (cl.inputDim != 63 && fn == null) {
             setTopMessage(getString(R.string.err_setup), true)
             predLetter.text = "—"
             classifier?.close()
@@ -235,17 +256,18 @@ class MainActivity : ComponentActivity() {
         }
 
         val nClass = nClassModel
-        smoother = Smoother(numClasses = nClass, alpha = 0.7f)
+        smoother = Smoother(numClasses = nClass, alpha = 0.70f)
         maxEntropyThreshold =
             if (nClass <= 1) 0f
-            else (kotlin.math.ln(nClass.toDouble()) * 0.92).toFloat()
+            else (kotlin.math.ln(nClass.toDouble()) * 0.75).toFloat()
 
         try {
             handLandmarker = createHandLandmarker()
-        } catch (e: Exception) {
+        } catch (t: Throwable) {
+            Log.e("Sign2Text", "HandLandmarker load failed", t)
             setTopMessage(getString(R.string.err_setup), true)
             predLetter.text = "—"
-            return
+            handLandmarker = null
         }
 
         wordDictionary = try {
@@ -367,9 +389,9 @@ class MainActivity : ComponentActivity() {
             .setBaseOptions(baseOptions)
             .setRunningMode(RunningMode.LIVE_STREAM)
             .setNumHands(1)
-            .setMinHandDetectionConfidence(0.35f)
-            .setMinHandPresenceConfidence(0.35f)
-            .setMinTrackingConfidence(0.35f)
+            .setMinHandDetectionConfidence(0.20f)
+            .setMinHandPresenceConfidence(0.20f)
+            .setMinTrackingConfidence(0.20f)
             .setResultListener { result: HandLandmarkerResult, _: MPImage ->
                 onHandResult(result)
             }
@@ -382,6 +404,47 @@ class MainActivity : ComponentActivity() {
             .build()
 
         return HandLandmarker.createFromOptions(this, options)
+    }
+
+    private fun setupCameraFlip() {
+        val detector = GestureDetector(
+            this,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent): Boolean = true
+
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    flipCamera()
+                    return true
+                }
+            }
+        )
+        cameraTapTarget.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                Log.i("Sign2Text", "camera tap down")
+            }
+            detector.onTouchEvent(event)
+            true
+        }
+    }
+
+    private fun flipCamera() {
+        if (cameraSwitchInFlight) return
+        cameraSwitchInFlight = true
+        useFrontCamera = !useFrontCamera
+        Log.i("Sign2Text", "flipCamera front=$useFrontCamera")
+        cameraTapTarget.contentDescription = getString(
+            if (useFrontCamera) R.string.camera_front else R.string.camera_back
+        )
+        smoother?.reset()
+        displayDebouncer.reset()
+        zStrokeDetector.reset()
+        predLetter.text = "—"
+        Toast.makeText(
+            this,
+            if (useFrontCamera) R.string.camera_front else R.string.camera_back,
+            Toast.LENGTH_SHORT
+        ).show()
+        startCamera()
     }
 
     private fun startCamera() {
@@ -405,21 +468,44 @@ class MainActivity : ComponentActivity() {
                     .setScaleType(ViewPort.FILL_CENTER)
                     .build()
 
-                val preview = Preview.Builder()
-                    .setTargetRotation(rotation)
+                val highPreview = ResolutionSelector.Builder()
+                    .setResolutionStrategy(
+                        ResolutionStrategy(
+                            Size(1920, 1080),
+                            ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER
+                        )
+                    )
                     .build()
-                val analysis = ImageAnalysis.Builder()
+                val previewBuilder = Preview.Builder()
+                    .setTargetRotation(rotation)
+                    .setResolutionSelector(highPreview)
+                Camera2Interop.Extender(previewBuilder)
+                    .setCaptureRequestOption(
+                        CaptureRequest.CONTROL_AF_MODE,
+                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                    )
+                    .setCaptureRequestOption(
+                        CaptureRequest.CONTROL_AE_MODE,
+                        CaptureRequest.CONTROL_AE_MODE_ON
+                    )
+                val preview = previewBuilder.build()
+                val analysisBuilder = ImageAnalysis.Builder()
                     .setTargetRotation(rotation)
                     .setOutputImageRotationEnabled(true)
-                    .setTargetResolution(Size(1280, 720))
+                    .setTargetResolution(Size(640, 480))
                     .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .build()
+                Camera2Interop.Extender(analysisBuilder)
+                    .setCaptureRequestOption(
+                        CaptureRequest.CONTROL_AF_MODE,
+                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                    )
+                val analysis = analysisBuilder.build()
                     .also { ia ->
                         ia.setAnalyzer(executor) { imageProxy ->
                             try {
                                 var bmp = imageProxy.toBitmap()
-                                if (USE_FRONT_CAMERA) {
+                                if (useFrontCamera) {
                                     val mirrored = bmp.mirrorHorizontal()
                                     bmp.recycle()
                                     bmp = mirrored
@@ -435,7 +521,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                val cameraSelector = if (USE_FRONT_CAMERA) {
+                val cameraSelector = if (useFrontCamera) {
                     CameraSelector.DEFAULT_FRONT_CAMERA
                 } else {
                     CameraSelector.DEFAULT_BACK_CAMERA
@@ -449,7 +535,16 @@ class MainActivity : ComponentActivity() {
 
                 preview.setSurfaceProvider(previewView.surfaceProvider)
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, useCaseGroup)
+                val camera = cameraProvider.bindToLifecycle(this, cameraSelector, useCaseGroup)
+                val focusFactory = SurfaceOrientedMeteringPointFactory(vw.toFloat(), vh.toFloat())
+                val focusPoint = focusFactory.createPoint(vw / 2f, vh / 2f)
+                val focusAction = FocusMeteringAction.Builder(
+                    focusPoint,
+                    FocusMeteringAction.FLAG_AF or FocusMeteringAction.FLAG_AE
+                )
+                    .setAutoCancelDuration(2, TimeUnit.SECONDS)
+                    .build()
+                camera.cameraControl.startFocusAndMetering(focusAction)
 
                 runOnUiThread {
                     setTopMessage(null, false)
@@ -460,6 +555,8 @@ class MainActivity : ComponentActivity() {
                 runOnUiThread {
                     setTopMessage(getString(R.string.err_camera), true)
                 }
+            } finally {
+                cameraSwitchInFlight = false
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -467,8 +564,8 @@ class MainActivity : ComponentActivity() {
     private fun onHandResult(result: HandLandmarkerResult) {
         try {
             if (result.landmarks().isEmpty()) {
-                majorityVote.reset()
                 displayDebouncer.reset()
+                zStrokeDetector.reset()
                 if (wordModeEnabled) {
                     openPalmConfirm.reset()
                 }
@@ -480,9 +577,12 @@ class MainActivity : ComponentActivity() {
             }
 
             val landmarks = result.landmarks()[0]
+            if (landmarks.size < 21) return
 
-            val useGeometry = classifier?.inputDim == 83
+            val modelDim = classifier?.inputDim ?: 63
+            val useGeometry = modelDim == HandPreprocessor.MODEL_FEATURE_DIM
             val features = HandPreprocessor.toModelFeatures(landmarks, useGeometry)
+            val thumbIndexGap = HandPreprocessor.thumbIndexGap(features)
             featureNormalizer?.normalizeInPlace(features)
             FeatureDiagnostics.maybeLog(features)
 
@@ -493,22 +593,40 @@ class MainActivity : ComponentActivity() {
             val letter = labelMap?.labelFor(idx) ?: "?"
 
             val sorted = smoothed.mapIndexed { i, v -> i to v }.sortedByDescending { it.second }
-            val second = sorted.getOrNull(1)?.second ?: 0f
-            val margin = conf - second
+            val secondP = sorted.getOrNull(1)?.second ?: 0f
+            val secondLabel = sorted.getOrNull(1)?.let { (i, _) -> labelMap?.labelFor(i) }
+            val margin = conf - secondP
             val entropy = softmaxEntropy(smoothed)
             val top3Line = sorted.take(3).joinToString("  ") { (i, p) ->
                 "${labelMap?.labelFor(i) ?: "?"}:${String.format("%.2f", p)}"
             }
 
-            majorityVote.push(idx)
-            val stableIdx = majorityVote.stableClass()
-            val majorityAgrees = stableIdx != null && stableIdx == idx
-            val showLetter = majorityAgrees &&
-                conf >= MIN_CONFIDENCE_TO_SHOW &&
-                margin >= MIN_MARGIN_TOP1_TOP2 &&
-                entropy <= maxEntropyThreshold
-
-            val debounced = displayDebouncer.update(showLetter, letter)
+            val now = SystemClock.uptimeMillis()
+            val zDrawn = zStrokeDetector.update(
+                now,
+                landmarks[INDEX_TIP].x(),
+                landmarks[INDEX_TIP].y(),
+                indexFingerExtended(landmarks),
+                wristToMiddleKnuckle(landmarks),
+            )
+            val chosen = LetterAcceptance.choose(
+                topLabel = letter,
+                topP = conf,
+                secondLabel = secondLabel,
+                secondP = secondP,
+                entropy = entropy,
+                maxEntropy = maxEntropyThreshold,
+                zDrawn = zDrawn,
+                minConfidence = MIN_CONFIDENCE_TO_SHOW,
+                minMargin = MIN_MARGIN_TOP1_TOP2,
+                thumbIndexGap = thumbIndexGap,
+            )
+            val displayCandidate = chosen ?: letter
+            val debounced = displayDebouncer.update(
+                showLetter = chosen != null,
+                letter = displayCandidate,
+                framesNeeded = 3,
+            )
 
             // Spelling only accumulates here. Do NOT auto-save on open palm — many letter
             // poses look "open" and were clearing the word before the user finished.
@@ -518,7 +636,6 @@ class MainActivity : ComponentActivity() {
             }
             val finalizedRaw: String? = null
 
-            val now = SystemClock.uptimeMillis()
             if (now - lastLogPredictionMs >= 250L) {
                 lastLogPredictionMs = now
                 Log.d(
@@ -629,6 +746,26 @@ class MainActivity : ComponentActivity() {
             d.hasPrefix(lower) -> getString(R.string.word_prefix_ok)
             else -> getString(R.string.word_no_match, raw)
         }
+    }
+
+    private fun indexFingerExtended(landmarks: List<com.google.mediapipe.tasks.components.containers.NormalizedLandmark>): Boolean {
+        val index = distance(landmarks[0], landmarks[INDEX_TIP])
+        val middle = distance(landmarks[0], landmarks[12])
+        val ring = distance(landmarks[0], landmarks[16])
+        return index > middle * 1.15f && index > ring * 1.15f
+    }
+
+    private fun wristToMiddleKnuckle(landmarks: List<com.google.mediapipe.tasks.components.containers.NormalizedLandmark>): Float {
+        return distance(landmarks[0], landmarks[9])
+    }
+
+    private fun distance(
+        a: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
+        b: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
+    ): Float {
+        val dx = a.x() - b.x()
+        val dy = a.y() - b.y()
+        return kotlin.math.hypot(dx, dy)
     }
 
     private fun softmaxEntropy(p: FloatArray): Float {

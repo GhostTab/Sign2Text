@@ -70,7 +70,7 @@ def main():
     ap.add_argument(
         "--no_geometric",
         action="store_true",
-        help="Use 63-D only (no wrist-distance geometry). Default appends 20 distances -> 83-D.",
+        help="Use 63-D only. Default appends wrist distances and thumb relations (95-D).",
     )
     ap.add_argument(
         "--use_group_split",
@@ -90,7 +90,7 @@ def main():
     use_geo = not args.no_geometric
     if use_geo:
         X = concat_with_geometry(X63)
-        input_dim = 83
+        input_dim = int(X.shape[1])
     else:
         X = X63
         input_dim = 63

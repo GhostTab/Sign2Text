@@ -16,7 +16,7 @@ class TFLiteClassifier(
     /** Logits length; must match label_map.json. */
     val numClasses: Int
 
-    /** Feature width (63 or 83); must match feature_norm.json and HandPreprocessor. */
+    /** Feature width (63 or 95); must match feature_norm.json and HandPreprocessor. */
     val inputDim: Int
 
     init {

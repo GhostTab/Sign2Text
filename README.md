@@ -24,7 +24,7 @@ sign2text/
     saved_model/asl_mlp/
     tflite/
     label_map.json
-    feature_norm.json      # includes input_dim (63 or 83)
+    feature_norm.json      # includes input_dim (63 or 95)
     calibration.json       # temperature for logits (optional)
   mobile/android/
 ```
@@ -59,7 +59,7 @@ CSV columns: `label`, `group`, `path`, `f0`…`f62`. Use `train_mlp.py --use_gro
 
 ## 4) Train MLP
 
-Default **83-D** input (63 landmarks + 20 wrist–joint distances). Use `--no_geometric` for legacy **63-D**.
+Default **95-D** input (63 landmarks + 20 wrist–joint distances + 12 thumb-to-finger offsets). Use `--no_geometric` for legacy **63-D**.
 
 ```bash
 python scripts/train_mlp.py ^
@@ -73,14 +73,14 @@ Writes `models/feature_norm.json` (with `input_dim`), `models/calibration.json` 
 
 ## 5) Export TFLite
 
-`--input_dim` must match training (83 default, or 63 with `--no_geometric`):
+`--input_dim` must match training (95 default, or 63 with `--no_geometric`):
 
 ```bash
 python scripts/export_tflite.py ^
   --saved_model_dir models/saved_model/asl_mlp ^
   --out_fp32 models/tflite/asl_mlp_fp32.tflite ^
   --out_int8 models/tflite/asl_mlp_int8.tflite ^
-  --input_dim 83
+  --input_dim 95
 ```
 
 ## 6) Sync Android assets (one bundle)
@@ -124,7 +124,7 @@ Open `mobile/android/` in Android Studio. Assets should include:
 
 - `asl_mlp_fp32.tflite`
 - `label_map.json`
-- `feature_norm.json` (required for 83-D models)
+- `feature_norm.json` (required for 95-D models)
 - `calibration.json` (optional; defaults to temperature=1)
 - `hand_landmarker.task`
 

@@ -97,6 +97,17 @@ class LetterSequenceAccumulatorTest {
     }
 
     @Test
+    fun shortFlashDoesNotEnterTheWord() {
+        val acc = LetterSequenceAccumulator(framesToRecord = 6)
+        repeat(5) { acc.onDebouncedLetter("C") }
+        assertEquals("", acc.spelling)
+        acc.onDebouncedLetter("C")
+        assertEquals("C", acc.spelling)
+        acc.onDebouncedLetter("C")
+        assertEquals("C", acc.spelling)
+    }
+
+    @Test
     fun backspaceOnEmptyReturnsFalse() {
         val acc = LetterSequenceAccumulator()
         assertFalse(acc.deleteLastLetter())

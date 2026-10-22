@@ -13,8 +13,8 @@ def main():
     ap.add_argument(
         "--input_dim",
         type=int,
-        default=83,
-        help="Must match train_mlp input_dim (63 if --no_geometric, else 83).",
+        default=95,
+        help="Must match train_mlp input_dim (63 if --no_geometric, else 95).",
     )
     args = ap.parse_args()
 

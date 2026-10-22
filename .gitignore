@@ -6,6 +6,7 @@ __pycache__/
 
 dataset/raw/
 dataset/processed/
+SignAlphaSet/
 
 models/saved_model/
 models/tflite/

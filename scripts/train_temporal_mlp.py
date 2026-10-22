@@ -53,7 +53,7 @@ def main() -> None:
     ap.add_argument(
         "--no_geometric",
         action="store_true",
-        help="Use 63-D frames only (default: 83-D with wrist distances).",
+        help="Use 63-D frames only (default: 95-D with wrist distances and thumb relations).",
     )
     args = ap.parse_args()
 

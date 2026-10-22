@@ -19,7 +19,12 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from landmark_preprocessing import normalize_landmarks_xyz, flip_x_components63
-from geometric_features import wrist_distances_from_flat63
+from geometric_features import (
+    MODEL_FEATURE_DIM,
+    concat_with_geometry,
+    thumb_relations_from_flat63,
+    wrist_distances_from_flat63,
+)
 
 
 def _feat_checksum(x: np.ndarray) -> str:
@@ -41,7 +46,7 @@ def main():
     ap.add_argument(
         "--input_dim",
         type=int,
-        default=83,
+        default=95,
         help="Tensor size for TF vs TFLite compare (must match exported model).",
     )
     args = ap.parse_args()
@@ -65,6 +70,12 @@ def main():
     f_geo = wrist_distances_from_flat63(f)
     assert f_geo.shape == (20,), f_geo.shape
     print("wrist_distances_from_flat63: shape OK (20,)")
+
+    thumb = thumb_relations_from_flat63(f)
+    assert thumb.shape == (12,), thumb.shape
+    full = concat_with_geometry(f.reshape(1, 63))
+    assert full.shape == (1, MODEL_FEATURE_DIM), full.shape
+    print(f"thumb_relations + concat: shape OK ({MODEL_FEATURE_DIM},)")
 
     if args.csv:
         import pandas as pd

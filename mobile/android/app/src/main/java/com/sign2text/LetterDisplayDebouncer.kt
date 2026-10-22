@@ -21,7 +21,7 @@ class LetterDisplayDebouncer(
         uncertainStreak = 0
     }
 
-    fun update(showLetter: Boolean, letter: String): String {
+    fun update(showLetter: Boolean, letter: String, framesNeeded: Int = framesToConfirm): String {
         if (!showLetter) {
             uncertainStreak++
             if (uncertainStreak >= framesToClear) {
@@ -38,7 +38,7 @@ class LetterDisplayDebouncer(
             pending = letter
             streak = 1
         }
-        if (streak >= framesToConfirm) {
+        if (streak >= framesNeeded.coerceAtLeast(1)) {
             committed = letter
         }
         return committed

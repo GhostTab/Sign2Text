@@ -30,6 +30,15 @@
             android:layout_gravity="bottom"
             android:background="@drawable/bg_camera_bottom_scrim" />
 
+        <!-- Above the camera surface so a double-tap is not lost to the preview. -->
+        <View
+            android:id="@+id/cameraTapTarget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:contentDescription="@string/cd_flip_camera"
+            android:focusable="true" />
+
         <!-- Frosted top bar -->
         <LinearLayout
             android:layout_width="match_parent"

@@ -5,7 +5,7 @@ import org.json.JSONObject
 /**
  * Applies the same z-score as training: x' = (x - mean) / std.
  * Loaded from assets/feature_norm.json (written by train_mlp.py).
- * Supports input_dim 63 or 83 (with geometric wrist distances).
+ * Supports input_dim 63 or 95 (wrist distances plus thumb relations).
  */
 class FeatureNormalizer(
     private val mean: FloatArray,

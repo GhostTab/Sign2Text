@@ -25,6 +25,9 @@
     <string name="hint_idle">Point the camera at your hand</string>
     <string name="hint_no_hand">Show your hand in the frame</string>
     <string name="hint_uncertain">Hold the sign a bit longer</string>
+    <string name="camera_front">Front camera</string>
+    <string name="camera_back">Back camera</string>
+    <string name="cd_flip_camera">Camera preview. Double-tap to switch front and back camera.</string>
 
     <string name="mode_word_enable">Spell words</string>
     <string name="mode_word_disable">Letters only</string>

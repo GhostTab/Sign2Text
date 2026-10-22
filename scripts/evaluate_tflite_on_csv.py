@@ -1,7 +1,7 @@
 """
 Per-class accuracy + confusion matrix using the exported TFLite model (matches Android runtime).
 
-Supports 63- or 83-D features (from feature_norm.json input_dim), logits + optional calibration.json.
+Supports 63-D or 95-D features (from feature_norm.json input_dim), logits + optional calibration.json.
 
 Usage:
   .venv\\Scripts\\python scripts/evaluate_tflite_on_csv.py --csv dataset/processed/landmarks.csv \\
@@ -28,7 +28,7 @@ except ImportError as e:
     raise SystemExit("pip install tensorflow") from e
 
 from calibration_utils import softmax
-from geometric_features import concat_with_geometry
+from geometric_features import MODEL_FEATURE_DIM, concat_with_geometry
 
 
 def main():
@@ -77,10 +77,12 @@ def main():
         mean = np.array(fn["mean"], dtype=np.float32)
         std = np.maximum(np.array(fn["std"], dtype=np.float32), 1e-6)
         input_dim = int(fn.get("input_dim", len(mean)))
-        if input_dim == 83:
+        if input_dim == MODEL_FEATURE_DIM:
             X_test = concat_with_geometry(X_test)
         elif input_dim != 63:
-            raise ValueError(f"Unsupported input_dim {input_dim}")
+            raise ValueError(
+                f"Unsupported input_dim {input_dim}. Expected 63 or {MODEL_FEATURE_DIM}."
+            )
         X_test = (X_test - mean) / std
 
     if args.calibration:

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3 defense reviewer · Sign2Text</title>
+<style>
+  :root {
+    --ink: #1c1917;
+    --muted: #44403c;
+    --rule: #1e3a5f;
+    --rule-soft: #d6d3d1;
+    --head: #1e3a5f;
+    --head-bg: #1e3a5f;
+    --row: #f7f5f2;
+    --paper: #fff;
+    --desk: #e7e5e4;
+    --accent: #9a3412;
+    --ok: #14532d;
+    --ok-bg: #f0fdf4;
+    --bad-bg: #fff7ed;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--desk); }
+  body {
+    margin: 0 auto;
+    max-width: 210mm;
+    padding: 16mm 16mm 20mm;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Calibri, "Segoe UI", sans-serif;
+    font-size: 11.5pt;
+    line-height: 1.42;
+  }
+  .banner {
+    font-size: 10.5pt;
+    line-height: 1.4;
+    background: #fff7ed;
+    border: 1px solid #fdba74;
+    padding: 8px 12px;
+    margin: 0 0 16px;
+  }
+  header.cover { text-align: center; margin: 4px 0 18px; }
+  header.cover p { margin: 0.15em 0; }
+  .kicker {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 10pt;
+    color: var(--head);
+    font-weight: 700;
+  }
+  h1 { font-size: 20pt; line-height: 1.2; margin: 8px 0 6px; }
+  .sub { font-size: 12.5pt; color: var(--muted); }
+  h2 {
+    font-size: 14.5pt;
+    color: var(--head);
+    margin: 1.35em 0 0.4em;
+    padding-top: 0.3em;
+    border-top: 2px solid var(--head);
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12.5pt;
+    margin: 1.05em 0 0.3em;
+    color: var(--head);
+    page-break-after: avoid;
+  }
+  p { margin: 0.45em 0; }
+  ol.toc { padding-left: 1.2em; }
+  ol.toc li { margin: 0.15em 0; }
+  ol.toc a { text-decoration: none; color: inherit; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.35em 0 0.7em;
+    font-size: 10.5pt;
+    line-height: 1.32;
+    page-break-inside: avoid;
+  }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: 700;
+    margin: 0 0 4px;
+    font-size: 11pt;
+    color: var(--head);
+  }
+  th, td {
+    border: 1px solid #a8a29e;
+    padding: 5px 7px;
+    vertical-align: top;
+    text-align: left;
+  }
+  th { background: var(--head-bg); color: #fff; font-weight: 700; }
+  tbody tr:nth-child(even) td { background: var(--row); }
+  td.q { width: 34%; font-weight: 700; }
+  .say {
+    background: var(--ok-bg);
+    border-left: 4px solid var(--ok);
+    padding: 8px 12px;
+    margin: 0.5em 0 0.7em;
+    page-break-inside: avoid;
+  }
+  .say strong { color: var(--ok); }
+  .watch {
+    background: var(--bad-bg);
+    border-left: 4px solid var(--accent);
+    padding: 8px 12px;
+    margin: 0.5em 0 0.7em;
+    page-break-inside: avoid;
+  }
+  .watch strong { color: var(--accent); }
+  ul, ol { margin: 0.3em 0 0.55em; }
+  li { margin: 0.18em 0; }
+  code, .mono { font-family: Consolas, "Courier New", monospace; font-size: 0.92em; }
+  .flow {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 10pt;
+    background: #f7f5f2;
+    border: 1px solid var(--rule-soft);
+    padding: 8px 10px;
+    margin: 0.4em 0 0.7em;
+  }
+  @media print {
+    html { background: #fff; }
+    body { max-width: none; margin: 0; padding: 0; }
+    .banner { border-color: #000; background: #fff; }
+    a { color: inherit; text-decoration: none; }
+    h2 { break-before: page; }
+    h2.first { break-before: auto; }
+  }
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+    @bottom-center {
+      content: "Sign2Text  ·  Chapter 3 defense reviewer  ·  " counter(page);
+      font-family: Calibri, "Segoe UI", sans-serif;
+      font-size: 9pt;
+      color: #444;
+    }
+  }
+</style>
+</head>
+<body>
+
+<p class="banner"><strong>Study guide for the researchers.</strong> This file is not a page of the thesis. Print it with the browser: <strong>Print → Save as PDF</strong>. Read it beside Chapter 3. In the defense, answer as a team: say “we.” If a number is asked and you are unsure, name the table instead of guessing a new number.</p>
+
+<header class="cover">
+  <p class="kicker">Defense reviewer</p>
+  <h1>How to explain Chapter 3</h1>
+  <p class="sub">Sign2Text: Real-Time American Sign Language Alphabet Recognition on Android</p>
+  <p>Christian Sadial Eba · Zeben Nueva Ecija Realizan · Raquel Villaflor Bayle<br>Erica Cano Policarpio · Rodgina Trogon Ybañez</p>
+</header>
+
+<h2 class="first" id="how">How to use this in the defense</h2>
+<p>Chapter 3 is the methods chapter. It explains how the application was specified, designed, built, and prepared for testing. It does not report a finished live-accuracy score. If the panel asks “what percent did you get on the phone?”, the honest answer is that the phone procedure is written in Table 3.25, and a still-photo score is a pipeline check, not the live result.</p>
+<p>Any member can be asked any section. Learn the one-breath answer for each section, then the picture, then the questions. Point at the figure in the chapter while you talk. The panel is checking that you understand the system you are submitting, so a short correct answer is stronger than a long one.</p>
+<ol class="toc">
+  <li><a href="#story">The whole system in two minutes</a></li>
+  <li><a href="#numbers">Numbers that must stay straight</a></li>
+  <li><a href="#s31">3.1 Project / Research Design</a></li>
+  <li><a href="#s32">3.2 Software Development Methodology</a></li>
+  <li><a href="#s33">3.3 Requirements Analysis</a></li>
+  <li><a href="#s34">3.4 System Architecture</a></li>
+  <li><a href="#s35">3.5 System Design and Modeling</a></li>
+  <li><a href="#s36">3.6 Database Design</a></li>
+  <li><a href="#s37">3.7 Development Tools and Technologies</a></li>
+  <li><a href="#s38">3.8 Implementation Plan</a></li>
+  <li><a href="#s39">3.9 Testing and Evaluation Procedures</a></li>
+  <li><a href="#traps">Answers that do not match the chapter</a></li>
+  <li><a href="#drill">Fifteen questions to ask each other</a></li>
+</ol>
+
+<h2 id="story">The whole system in two minutes</h2>
+<div class="say"><strong>Say this if they ask “what did you build?”</strong><br>
+Sign2Text is an Android application. It reads one hand from the phone camera and shows the matching letter of the American Sign Language fingerspelling alphabet, A to Z. We trained the model on a computer. After installation, recognition runs on the phone. No image, landmark, or letter is sent to a server.</div>
+<p>The path of one frame is the sentence the whole chapter is built on. Memorize it in this order.</p>
+<p class="flow">Camera frame → 21 hand landmarks → 95 numbers → small neural network → accept the letter or leave the screen blank → show the letter after 3 agreeing frames → write it into the word after 6 frames, and only if spelling is turned on</p>
+<p>We built it in rounds. A small app came first. Real signing then showed what had to change: the training photos were too dark, the camera would not switch, some letters were hard, a closed O was read as C, a resting hand became a letter, and people draw Z in the air while many training photos only show a pointing finger. Each of those became the next change. That is why the method is iterative and incremental, following Sommerville (2016), and not a waterfall plan.</p>
+<div class="watch"><strong>Keep this limit in the answer.</strong> The app spells letters. It does not read a whole-word sign such as the waved greeting for “Hi.” The dataset contains about 300 short videos, including Hello, Thank You, Sorry, Yes, and No. We did not train on those videos. A model trained on still alphabet photos cannot recognize a moving word sign.</div>
+
+<h2 id="numbers">Numbers that must stay straight</h2>
+<p>These are the figures already written in the chapter. Say them only when the question needs them.</p>
+<table>
+  <caption>Facts the panel can check against the chapter</caption>
+  <thead><tr><th>Item</th><th>The figure in the chapter</th><th>Where</th></tr></thead>
+  <tbody>
+    <tr><td>Training images</td><td>SignAlphaSet version 3. 26 folders, 1,000 JPEG images each, 26,000 images, 296 × 296, palm toward the camera. License CC BY 4.0. DOI 10.17632/8fmvr9m98w.3.</td><td>Table 3.2</td></tr>
+    <tr><td>Hands actually found</td><td>25,682 images produced a landmark row. 318 did not. Letter O was the hardest to find: 709 of 1,000.</td><td>Section 3.1.4</td></tr>
+    <tr><td>Model input</td><td>63 landmark values + 20 wrist distances + 12 thumb offsets = 95.</td><td>Section 3.1.6, Table 3.13</td></tr>
+    <tr><td>Network</td><td>95 → 256 → 256 → 128 → 26 logits. Dropout 0.35, 0.35, then 0.20.</td><td>Table 3.14</td></tr>
+    <tr><td>Split and training</td><td>80% train, 10% validation, 10% test, stratified by letter, seed 42. Adam, learning rate 0.0008. Up to 40 epochs, batch 256. Early stop patience 8.</td><td>Table 3.15</td></tr>
+    <tr><td>Temperature</td><td>The shipped value is 1.0. A fitted value of 0.2 was rejected because it would have made almost every frame look certain.</td><td>Section 3.5.5</td></tr>
+    <tr><td>Hand detector on the phone</td><td>0.20, so a closed hand can still be found. Extraction on the computer used 0.35.</td><td>Table 3.16, Section 3.1.4</td></tr>
+    <tr><td>Easier letters</td><td>C, M, N, O, P, T, U, and Z, only when that letter is already first, score at least 0.55, lead at least 0.12.</td><td>Table 3.16, Figure 3.5</td></tr>
+    <tr><td>Other letters</td><td>Score at least 0.60, lead at least 0.18, entropy at most about 2.44.</td><td>Table 3.16</td></tr>
+    <tr><td>O versus C</td><td>Thumb-to-index gap under 0.42 is O. Gap over 0.48 is C. Used only when the network already prefers C or O. A gap between those two numbers does not force either letter.</td><td>Table 3.16</td></tr>
+    <tr><td>Show and record</td><td>3 agreeing frames before the letter is shown. 6 agreeing frames before it is written into the word, and only while spelling mode is on. Spelling is off by default.</td><td>Table 3.16, FR-09, FR-10</td></tr>
+    <tr><td>Runtime files</td><td>Six: hand landmarker, float model, normalization, calibration, label map, English word list.</td><td>Table 3.10</td></tr>
+    <tr><td>Phone</td><td>Android 8.0 and newer, API 26 through 34. Package name com.sign2text. A physical arm64 phone is the recognition device.</td><td>Table 3.7, Table 3.19</td></tr>
+  </tbody>
+</table>
+<div class="watch"><strong>Two “online” words.</strong> In Table 3.1, “online use” means the application while a person is using it on the phone. It does not mean the internet. After install, recognition does not need a network. If the panel looks confused, say that sentence immediately.</div>
+
+<h2 id="s31">3.1 Project / Research Design</h2>
+<div class="say"><strong>In one breath.</strong> This is applied research and development. The question is whether a phone can turn a held ASL letter into text without a network, and whether the screen can stay blank when the hand is only resting. The result is a working Android application and the training procedure that produced its classifier.</div>
+<h3>What the two phases are</h3>
+<p>Table 3.1 splits the work. Offline development happens on a computer in Python and produces the landmark table, the trained network, the normalization file, the calibration file, and the TensorFlow Lite model. Use on the phone produces a letter on the screen and, if spelling is on, a word built from letters the signer holds. The phone does not retrain the network. It loads one fixed bundle that was copied in at build time.</p>
+<h3>Why landmarks, not the photo itself</h3>
+<p>MediaPipe Hands gives 21 points on the hand. Each point has x, y, and z, so that is 63 numbers (Zhang et al., 2020). We move the wrist to the origin, scale by the longest wrist-to-point distance, and mirror a left hand so it sits in the same frame as a right hand. We then add 20 distances from the wrist and 12 offsets from the thumb tip to the middle joints of the four fingers. Fist letters look alike in raw coordinates. The thumb position is what separates them. Before the network, each of the 95 values is turned into a z-score with the training mean and standard deviation. A z-score means “how far is this value from the training average, in units of the training spread,” so the phone and the training script use the same scale.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.1 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">What kind of study is this?</td><td>Applied research and development. We built a working system to answer a practical question, and Chapter 3 records the method.</td></tr>
+    <tr><td class="q">Why not send the hand to a server?</td><td>A server would need an account, add delay, and keep a copy of the hand. Keeping the model on the phone meets privacy and offline use together.</td></tr>
+    <tr><td class="q">Why this dataset?</td><td>An earlier alphabet collection was dark, and the hand was not shown the way a person signs toward a phone. The released model uses SignAlphaSet version 3, palms toward the camera, both hands, credited to Garg, Kasar, Kashyap, Vats, Sharma, and Hange (2025). The Kaggle copy we used was prepared by Meo under the same CC BY 4.0 license.</td></tr>
+    <tr><td class="q">Why were 318 images dropped?</td><td>A row is kept only when MediaPipe finds a hand. We do not fill a missed hand with zeros. O lost the most images because a closed fist is easier for the detector to miss. Class weights during training compensate for that imbalance.</td></tr>
+    <tr><td class="q">What is inside the scope?</td><td>One-handed ASL fingerspelling of the 26 English letters, palm toward the lens, portrait Android, API 26 and above. When spelling is on, letters can be checked against a local list of 10,000 English words.</td></tr>
+    <tr><td class="q">What is outside the scope?</td><td>ASL grammar, facial expression, and whole-word signs. J in the still images is a pinky held in place, so a flicking J is outside this model. Z photos are often a pointing index, so the phone adds a separate path check for a Z drawn in the air.</td></tr>
+    <tr><td class="q">What are the variables?</td><td>The inputs we observe are the hand pose, which camera, the light, and the distance. We do not control hand size. The outputs are the displayed letter, which may be blank, and the spelled string. The weights, normalization, temperature, and thresholds are fixed inside a release.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s32">3.2 Software Development Methodology</h2>
+<div class="say"><strong>In one breath.</strong> We followed iterative and incremental development, as described by Sommerville in the 10th edition of <em>Software Engineering</em> (2016). We released a small system, used it, and changed it. Requirements were not frozen before the first build.</div>
+<h3>Figure 3.1, the cycle</h3>
+<p>Six boxes, left to right: Requirements, Design, Build, Test, Release, Feedback. The orange arrow under the boxes returns from Feedback to Requirements. The caption on the figure says what failed in use becomes the next requirement. Feedback from one cycle is the input to the next.</p>
+<p>It is incremental because each cycle left a usable application in place. The spelling screen, the camera, and the model were not postponed until a final stage. It is iterative because the thresholds were revised after they failed with a real hand.</p>
+<h3>Table 3.4, the eight cycles, in the order to retell them</h3>
+<ol>
+  <li><strong>First recognizer.</strong> Landmarks and a small network could show a letter. We built the camera, the welcome and recognition screens, and Save and Clear. The input grew from 63 values to 95.</li>
+  <li><strong>Training images.</strong> Dark, side-lit crops did not match a palm held toward a phone. We retrained on SignAlphaSet and replaced the model in the app.</li>
+  <li><strong>Camera.</strong> The preview surface swallowed taps, so a button drawn on the picture did not flip the camera. A full-screen tap target was added. A double tap switches front and back. The front-camera frame is mirrored before analysis.</li>
+  <li><strong>Hard letters.</strong> C, M, N, O, T, and Z were rejected when the sign was slightly off. A later build then printed letters when nobody had signed. Those letters may appear at a slightly lower score, but only when they are clearly first. A second-place letter can no longer replace the first.</li>
+  <li><strong>O read as C.</strong> A closed circle and an open curve share a silhouette. If the network already prefers C or O, the thumb-to-index gap chooses between them.</li>
+  <li><strong>Resting hand.</strong> An idle hand was displayed and then written into the word. We now wait 3 agreeing frames before a letter is shown, and 6 before it is recorded. The word is saved only with the Save control.</li>
+  <li><strong>Drawn Z.</strong> Z in the photographs is often a still point, while signers draw the letter. A short path check on the index fingertip was added. A still Z from the network is also allowed.</li>
+  <li><strong>Release.</strong> Classmates who need the source pull the repository. People who only need the app install the debug package from a GitHub release.</li>
+</ol>
+<div class="watch"><strong>U and P are in the current rule, and they are not their own rows in Table 3.4.</strong> Cycle 4 records the first hard-letter pass: C, M, N, O, T, and Z. After live signing, U was added because it was often confused with R, and P was added because a held P was hard to keep on screen. If the panel asks, point to Table 3.16 and Figure 3.5. U appears only when U is already the top guess. If the top guess is R, the screen stays on R. P appears only when P is already the top guess. If the top guess is K, the screen stays on K.</div>
+<h3>Questions</h3>
+<table>
+  <caption>3.2 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">Why not waterfall?</td><td>A waterfall plan would have hidden failures that appeared only when a real hand was held in front of the camera: a resting hand becoming a letter, O being read as C, and taps on the preview failing to switch the camera.</td></tr>
+    <tr><td class="q">What is the difference between iterative and incremental?</td><td>Incremental means each cycle left a usable app. Iterative means we changed the rules after they failed in use, instead of declaring them correct at the start. We did both.</td></tr>
+    <tr><td class="q">How did you control a cycle?</td><td>Source changes sit on the main branch. Letter acceptance, the Z path, and the spelling buffer are locked by unit tests before the interface is trusted. Teammates open the Android project under <span class="mono">mobile/android</span>, not at the root of the repository. The machine-specific Android SDK path stays out of version control.</td></tr>
+    <tr><td class="q">Who is the user of the running app?</td><td>The signer and the reader. The people who build the software are not a user role while the app is running. Android Studio and the repository are development tools, described in Section 3.7.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s33">3.3 Requirements Analysis</h2>
+<div class="say"><strong>In one breath.</strong> Two roles use the app, and they may be the same person. The signer fingerspells, may turn spelling on, and chooses the camera. The reader reads the letter or the saved word and does not need an account or a second device.</div>
+<p>Functional requirements are what the app does. They are FR-01 through FR-14 in Table 3.5. Non-functional requirements are the qualities: privacy, offline use, speed, which phones, a single install, repeatable training, a blank screen when unsure, and portrait only. Those are NFR-01 through NFR-08 in Table 3.6. Constraints in Table 3.8 are limits we accepted, such as one hand, no cloud budget, and a still-image training set.</p>
+<h3>The fourteen functions, shortened so you can list them</h3>
+<ol>
+  <li>Welcome screen first. Recognition starts from there.</li>
+  <li>Camera only after permission.</li>
+  <li>Live preview and a letter together.</li>
+  <li>One hand tracked.</li>
+  <li>The letter is one of A to Z. Index 0 is A. Index 25 is Z.</li>
+  <li>An unclear hand stays blank.</li>
+  <li>No hand in frame clears the live letter.</li>
+  <li>Double tap on the preview switches camera.</li>
+  <li>Spelling can be turned on, and it is off by default.</li>
+  <li>A word records a hold, not a flicker. Six identical confirmed frames append the letter once.</li>
+  <li>Save copies the string and clears the line. Backspace removes one letter. Clear removes both the line and the saved word.</li>
+  <li>The spelled string can be checked against 10,000 local English words. If that file is missing, spelling still works and the hint is omitted.</li>
+  <li>Closed O and open C are distinguished by the thumb-to-index gap, after the network already prefers C or O.</li>
+  <li>A drawn Z is recognized. A still Z from the network is also accepted.</li>
+</ol>
+<h3>Questions</h3>
+<table>
+  <caption>3.3 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">What hardware does a user need?</td><td>An Android phone, version 8.0 or newer, with a front or back camera. Recognition is supported on an arm64 phone. A 64-bit Intel emulator can open the preview and cannot run the hand tracker, because the MediaPipe native library is not in the x86_64 build.</td></tr>
+    <tr><td class="q">What does the user need to install besides the app?</td><td>Nothing. Python, TensorFlow, and the training libraries are required only if someone retrains the model. They are not required to use the installed application. There is no web host and no database server.</td></tr>
+    <tr><td class="q">Why are the bars translucent white instead of a real blur?</td><td>The minimum Android version is API 26, and the camera view is a surface with a hole through the window. A dependable blur of that surface is not assumed, so the top and bottom bars are translucent white panels.</td></tr>
+    <tr><td class="q">Why portrait only?</td><td>So the hand and the letter stay in a stable layout.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s34">3.4 System Architecture</h2>
+<div class="say"><strong>In one breath.</strong> Sign2Text is a single-user mobile application with the processing inside the package. In a web system, “backend” means a server. In this study the processing layer is on the phone. The training computer produced the model bundle once. The phone does not call that computer again.</div>
+<h3>Figure 3.2, the three columns</h3>
+<ul>
+  <li><strong>Left, phone interface:</strong> welcome screen, camera preview, letter and status, spelling sheet, Save, Backspace, and Clear.</li>
+  <li><strong>Middle, on-device pipeline:</strong> CameraX frame, MediaPipe’s 21 landmarks, 95 features then a z-score, the TensorFlow Lite network and the gates, then smooth, confirm, and record.</li>
+  <li><strong>Right, dashed orange box:</strong> the training computer. It is labeled “not used at runtime.” SignAlphaSet images, landmark extraction, MLP training, TensorFlow Lite export, and the asset bundle inside the APK. The arrow goes from that bundle into the phone. It does not point the other way.</li>
+</ul>
+<h3>Figure 3.3 and Table 3.9, one frame</h3>
+<p>Read the boxes left to right: Frame, Hand landmarks, 95-D features, Network logits, Softmax and average, Accept or blank, Show then maybe record. If a stage cannot support a letter, that frame stays blank. It is not assigned a guess.</p>
+<p>The pieces, in the order a frame meets them:</p>
+<ol>
+  <li><strong>CameraX</strong> supplies the preview and a frame for analysis. Front-camera frames are mirrored.</li>
+  <li><strong>Hand Landmarker</strong> runs in live-stream mode, one hand, confidence 0.20. It returns 21 landmarks or nothing.</li>
+  <li><strong>HandPreprocessor</strong> makes the 95 values. The thumb–index gap for O and C is read here, before the z-score, because the z-score would change the raw distance.</li>
+  <li><strong>FeatureNormalizer</strong> applies the training mean and standard deviation.</li>
+  <li><strong>TFLiteClassifier</strong> returns 26 logits. A logit is the raw score before it becomes a probability. Softmax turns those 26 scores into probabilities that add up to 1. The formula is softmax of logit divided by T, and the shipped T is 1.0.</li>
+  <li><strong>Smoother</strong> keeps an exponential moving average. The new frame has weight 0.70, so a new pose is not ignored and one bad frame does not take over.</li>
+  <li><strong>LetterAcceptance and ZStrokeDetector</strong> return a letter or no letter.</li>
+  <li><strong>LetterDisplayDebouncer</strong> shows the letter after 3 agreeing frames and returns to blank after 3 rejected frames.</li>
+  <li><strong>LetterSequenceAccumulator</strong> appends the letter after 6 identical displayed frames, once per hold.</li>
+  <li><strong>WordDictionary</strong> only comments on the string already recorded. It does not choose the letter.</li>
+</ol>
+<h3>Why landmarks instead of pixels</h3>
+<p>A network trained on raw pixels would also have to learn skin color, background, and camera distance. Landmarks already remove most of that. The phone and the training script share one definition of the 95 values, and a parity script checks that the two definitions agree. The cost of this choice is that M and N remain easy to confuse, and a motion that is not in the still photos, such as a J flick, is invisible to the network. For Z, a second detector covers part of the motion.</p>
+<h3>What “integration” means here</h3>
+<p>CameraX, MediaPipe, and TensorFlow Lite are compiled into the package. Those are the integrations. At runtime the app does not call a website, a login service, or a cloud model. The six files in Table 3.10 are already inside the install.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.4 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">Where is your backend?</td><td>There is no server backend. The processing layer is inside the application package. The dashed box in Figure 3.2 is the training computer, and it does not run while the signer is using the phone.</td></tr>
+    <tr><td class="q">What are the six files?</td><td>The MediaPipe hand model, the 32-bit float letter classifier with 95 inputs and 26 logits, the normalization file, the calibration file, the label map, and the optional English word list.</td></tr>
+    <tr><td class="q">Why float and not the 8-bit model?</td><td>The export script writes both a 32-bit float model and an 8-bit model. The phone uses the 32-bit file.</td></tr>
+    <tr><td class="q">What happens if no hand is found?</td><td>The frame is left blank, and the Z detector resets. The app does not guess a letter.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s35">3.5 System Design and Modeling</h2>
+<div class="say"><strong>In one breath.</strong> The signer starts recognition from the welcome screen. Seeing the live letter is the main case. Spelling, saving, and editing are optional. The English word list does not change the letter on screen.</div>
+<h3>Figure 3.4, the use cases</h3>
+<p>The stick figure is the Signer. The ovals inside the Sign2Text box are: Start recognition, Allow the camera, See the live letter, Switch camera, Turn spelling on, Hold a letter, Save the word, Backspace, and Clear. The orange oval, “Check the English word list,” is supporting behavior. Say that sentence if they ask why it is a different color.</p>
+<h3>Figure 3.6, the wireframes</h3>
+<p>Two portrait phones. The left one is Welcome: the name Sign2Text, a short explanation, the button “Let’s start,” and the line “On-device · private · offline.” The welcome screen does not open the camera. The right one is Recognition: the camera fills the screen, a translucent bar at the top, and a sheet at the bottom that peeks with the letter and the line “Swipe up for Save and Clear.” Save and Clear are not drawn on that first peek, because the user has to swipe to reveal them. A double tap on the camera area switches the camera. A double tap on the bars does not, because the header and the sheet are drawn above the tap layer so their buttons still work.</p>
+<h3>Figure 3.5, the decision order — this is the figure to know cold</h3>
+<p>Walk it from the top.</p>
+<ol>
+  <li>Are hand landmarks present? If no, the screen is blank and the Z detector resets.</li>
+  <li>Was a Z drawn in the last 1.8 seconds? If yes, the candidate is Z. This is decided first.</li>
+  <li>Is the top letter C or O, with score at least 0.55 and a lead of at least 0.12? If the thumb-to-index gap is under 0.42, the letter is O. If the gap is over 0.48, the letter is C. When this rule returns O or C, the later score rules are not consulted.</li>
+  <li>A gap between 0.42 and 0.48 does not reject the frame and does not force O or C. The next rule can still accept the model’s top letter.</li>
+  <li>Is the top letter one of C, M, N, O, P, T, U, or Z, with score at least 0.55 and lead at least 0.12, and is that letter already first? If yes, accept it.</li>
+  <li>For every other letter: score at least 0.60, lead at least 0.18, and entropy at most ln(26) × 0.75, about 2.44.</li>
+  <li>If none of those match, there is no letter this frame.</li>
+  <li>Any accepted letter, including Z and the O-versus-C result, is shown only after 3 agreeing frames.</li>
+  <li>It is written into the word only when spelling mode is on and that same letter has stayed on screen for 6 frames.</li>
+</ol>
+<p>The lead is the probability of the first letter minus the probability of the second. Entropy measures how spread the 26 probabilities are. When entropy is high, the network is unsure across many letters, so the frame is rejected even if the top score looks moderate. A second-place letter cannot steal the decision.</p>
+<h3>How to demonstrate O, C, U, and Z with your hand</h3>
+<ul>
+  <li><strong>O:</strong> a closed circle, fingertips together.</li>
+  <li><strong>C:</strong> the same curve with a clear gap between thumb and index.</li>
+  <li><strong>U:</strong> palm toward the camera, index and middle fingers together. U uses the easier rule only when U is already first. If the model’s top guess is R, the screen stays on R.</li>
+  <li><strong>P:</strong> palm toward the camera and hold still. Point the index finger sideways, drop the middle finger, and keep the thumb out. P uses the easier rule only when P is already first. If the model’s top guess is K, the screen stays on K.</li>
+  <li><strong>Z:</strong> point the index and draw a Z, or hold a still Z that the network already accepts. A straight wave is not a Z. The detector wants two horizontal strokes and a downward diagonal, at least 6 samples, a path longer than 1.05 times the hand scale, inside a 1.8-second window, then held for 0.8 seconds. The front camera is mirrored first, so a Z drawn on either camera is tested in the same orientation.</li>
+</ul>
+<p>On the extracted SignAlphaSet rows, C and O separate cleanly on the gap. For C, the 10th percentile is about 0.52 and the median is about 0.67. For O, the 90th percentile is about 0.20 and the median is about 0.18. The cutoffs 0.42 and 0.48 sit in the empty interval between those two groups. The gap itself is not one of the 95 trained features. It is the distance between landmark 4, the thumb tip, and landmark 8, the index tip.</p>
+<h3>The network, in plain words</h3>
+<p>The classifier is a fully connected network, also called a multilayer perceptron. It does not output a letter directly. It outputs 26 logits, and softmax is applied outside the model so the temperature can be changed without retraining. Training used Adam, categorical cross-entropy, label smoothing of 0.05, balanced class weights, and a second copy of each training row with a random flip, a little noise, and a small scale change. The geometry features are recomputed after that change. Early stopping watches validation accuracy and restores the best weights.</p>
+<p>Temperature scaling was fitted on the validation logits and hit 0.2, the bottom of the search, because near-duplicate frames make the network look more certain than a new signer will be. Shipping 0.2 would have pushed almost every frame through the confidence gate. The released calibration file uses 1.0, so the gates stay in force.</p>
+<p>Save is an explicit button. An earlier version treated an open palm as a confirm gesture. Many real letters also look open, and that gesture was clearing a word before the signer had finished. That gesture was removed.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.5 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">Why can a resting hand no longer become a letter?</td><td>A letter has to be clearly first. The easier letters still need a score of 0.55 and a lead of 0.12. Other letters need 0.60, a lead of 0.18, and low entropy. The display then waits for 3 agreeing frames, and the word waits for 6. Spelling is off until the signer turns it on.</td></tr>
+    <tr><td class="q">Why is U easier than R?</td><td>U is on the easier list because live signing showed it was hard, and in the still photos it was often confused with R. The easier bar applies only when U is already the top guess. R still uses the stricter bar.</td></tr>
+    <tr><td class="q">Can the app see J as a flick?</td><td>No. In this image set, J is a pinky pose held in place. A flicking J is outside the present model.</td></tr>
+    <tr><td class="q">Why is the word list a different color in the use-case diagram?</td><td>It is supporting behavior. It comments on a string the signer has already recorded. It does not choose the letter.</td></tr>
+    <tr><td class="q">What does the welcome screen own?</td><td>The name, a short explanation, the credits, and the control that opens recognition. It does not own the camera, the model, or the spelled text. The recognition activity is not exported, so another app cannot launch it. Welcome is the only launcher.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s36">3.6 Database Design</h2>
+<div class="say"><strong>In one breath.</strong> Sign2Text does not use a database server, and it does not use SQLite. Recognition has to work offline, the spelled text is needed only for the current visit, and camera frames must not be kept. A schema of users, sessions, and stored images would have created data the application is not meant to keep.</div>
+<h3>Figure 3.7, two boxes</h3>
+<p>The left box is shipped with the application and is read-only: the hand landmarker, the float model and the label map, the normalization and calibration files, and the word list loaded into a trie of 10,000 words. A trie is a tree of letters, so the app can tell that the letters so far are still the start of a word without scanning the whole list every frame. The right box is orange because it exists only while the app is open: smoothed probabilities, Z samples, the displayed letter, the spelling buffer, and the saved string. Closing the screen drops them. There is no history of words across visits.</p>
+<h3>Figure 3.8, the numbers on the lines</h3>
+<p>Those numbers are cardinality. They say how many of one thing belong to how many of another. They are not scores, versions, or accuracy.</p>
+<table>
+  <caption>How to read every mark on Figure 3.8</caption>
+  <thead><tr><th>Mark</th><th>Meaning</th><th>On this diagram</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Exactly one</td><td>One image is one image. One model bundle is one bundle. One running session is one session. One session has one spelling buffer.</td></tr>
+    <tr><td>0..1</td><td>None, or one. Never more than one.</td><td>One photo yields at most one landmark row, because a missed hand is skipped. One session has at most one saved string, because Save is optional. The word list may be missing.</td></tr>
+    <tr><td>many</td><td>More than one</td><td>Many landmark rows train one model bundle.</td></tr>
+    <tr><td>checks</td><td>A lookup, not ownership</td><td>The word list may check the spelling buffer. It does not own the buffer. If the word list is missing, the buffer can still be used.</td></tr>
+  </tbody>
+</table>
+<p>Read the chain aloud: one image produces zero or one landmark row; many landmark rows train one model bundle; one bundle is loaded into one app session; that session holds one spelling buffer and zero or one saved string. Orange boxes exist only in memory.</p>
+<p>The landmark file used in training is one table in first normal form: letter, optional group, file path, and 63 landmark values named f0 through f62. The other 32 features are computed from those 63 when training starts, and again on the phone. There is no separate signer table, so the split is stratified by letter. A signer-level split was not available. That limit is stated again in Section 3.9.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.6 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">Where is the spelled word stored?</td><td>In memory, for the current visit. Save does not write it to disk. Clear, or closing the recognition screen, drops it.</td></tr>
+    <tr><td class="q">Do you store the camera frames?</td><td>No. The only short trace is the index-finger samples inside the 1.8-second Z window, and those are dropped after a decision or a reset.</td></tr>
+    <tr><td class="q">Are the training photographs inside the app?</td><td>No. Only the trained bundle is installed. Credit for the photographs stays with the SignAlphaSet authors under CC BY 4.0.</td></tr>
+    <tr><td class="q">What if the word list fails to load?</td><td>Spelling still works. The hint is omitted. That is why the relationship is optional.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s37">3.7 Development Tools and Technologies</h2>
+<div class="say"><strong>In one breath.</strong> The phone app is native Android, written in Kotlin. We did not use a web view, Flutter, or React Native, because the camera, MediaPipe, and TensorFlow Lite are available there without a second runtime. Training is Python. The two sides meet only at the asset files.</div>
+<p>Versions the panel may ask you to find in Table 3.19: Java bytecode target 17, Android compile and target 34, minimum 26, Gradle 8.7, CameraX 1.3.4, MediaPipe Tasks Vision 0.10.14, TensorFlow Lite 2.16.1, JUnit 4.13.2, Python 3.12 in the project environment. The package name is <span class="mono">com.sign2text</span>.</p>
+<p>The training order is fixed, and another person can rerun it:</p>
+<ol>
+  <li><span class="mono">extract_landmarks.py</span> reads the letter folders and writes the landmark table. A missed hand is skipped.</li>
+  <li><span class="mono">train_mlp.py</span> builds the 95-value rows, splits them, fits the network, and writes normalization, labels, and calibration.</li>
+  <li><span class="mono">export_tflite.py</span> writes a 32-bit model and an 8-bit model. The phone uses the 32-bit file.</li>
+  <li><span class="mono">sync_model_bundle.py</span> copies one consistent set into the Android assets. A new model with an old normalization file would be a broken release, so the files move together.</li>
+  <li><span class="mono">verify_pipeline_parity.py</span> checks that the Kotlin features and the Python features agree.</li>
+</ol>
+<p>A separate script can train a short recurrent network on sequences from the same table. That model is a comparison prototype. The installed application uses the single-frame network plus the Z path. Shipping the recurrent model would not make the system translate sentences.</p>
+<p>Git records the source, the model bundle, and the tests. It does not record the photograph archive, the virtual environment, the local SDK path, or the release package itself. GitHub holds the source and the installable package. There is no application server and no hosted database.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.7 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">Why Kotlin and not a cross-platform framework?</td><td>CameraX, MediaPipe, and TensorFlow Lite are available in native Android without a second runtime. The project does not use a web view, Flutter, or React Native.</td></tr>
+    <tr><td class="q">Where do we host it?</td><td>We do not host a running server. GitHub stores the source on the main branch and the installable debug package as a release asset named Sign2Text-debug.apk.</td></tr>
+    <tr><td class="q">Which folder do we open in Android Studio?</td><td><span class="mono">mobile/android</span>. Opening the root of the repository is the wrong project.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s38">3.8 Implementation Plan</h2>
+<div class="say"><strong>In one breath.</strong> Implementation is split into modules that can be built and checked on their own: data preparation, training and export, the application shell, inference, spelling, and release. Deployment is a file copy. There is no server to roll out.</div>
+<h3>Table 3.21, the five stages</h3>
+<ol>
+  <li><strong>Skeleton.</strong> Camera, landmarks, classifier, both screens, Save and Clear. Exit: a letter can be shown from a live hand.</li>
+  <li><strong>Training set.</strong> Replace the model with one trained on SignAlphaSet. Exit: the phone assets and the training files share input size 95.</li>
+  <li><strong>Camera switch.</strong> Double-tap target and mirrored front-camera frames. Exit: front and back can both be opened.</li>
+  <li><strong>Letter policy.</strong> Gates, the O-versus-C gap, the Z path, three-frame display, six-frame record. Exit: the unit tests for those rules pass. This stage was repeated, because the first easier rule showed letters when nobody had signed.</li>
+  <li><strong>Release.</strong> Debug package published for install, source pushed for teammates. Exit: the package installs over the previous application, because the package name stays <span class="mono">com.sign2text</span>.</li>
+</ol>
+<p>The distributed package is a debug build, so shrinking and obfuscation are off. That is enough for a class install. It is not a Play Store release, and the chapter does not describe it as one.</p>
+<h3>Backup, Table 3.22</h3>
+<ul>
+  <li>Source, tests, and the model bundle: Git on the main branch. A pull restores the app and the shipped model together.</li>
+  <li>Installable package: the GitHub release asset. Install does not require a build machine.</li>
+  <li>SignAlphaSet photographs and the landmark CSV: kept on the training computer, not in Git. The scripts can rebuild the CSV from the photographs.</li>
+  <li>Spelled words and camera frames: no backup, because they are not stored.</li>
+</ul>
+<h3>Security, said as a list</h3>
+<p>The aim is to keep the signer’s video on the phone, not to hide the model. Anyone who unpacks the package can read the model file. The controls are: the camera starts only after permission; frames, landmarks, and letters are not uploaded; the spelled word is not written to disk; only the welcome screen is exported; the word list never receives the camera image. A lost or shared phone can still show whatever word is on the screen at that moment. The app does not add a lock screen of its own. Closing the recognition screen clears the spelled word.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.8 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">How do classmates get the app?</td><td>People who only want to use it install the debug package from the GitHub release. Teammates who need the source pull the main branch and open <span class="mono">mobile/android</span>. The SDK path in <span class="mono">local.properties</span> is not part of that pull.</td></tr>
+    <tr><td class="q">What is your backup if the laptop fails?</td><td>The source and the shipped model are on the main branch. The installable package is the GitHub release. The photographs stay on the training computer because they are large, and the landmark table can be rebuilt from them.</td></tr>
+    <tr><td class="q">Is the model secret?</td><td>No. The security goal is the signer’s video, not secrecy of the weights. The model file can be read by unpacking the package.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="s39">3.9 Testing and Evaluation Procedures</h2>
+<div class="say"><strong>In one breath.</strong> We use four levels, and a pass at one level does not replace a pass at the next. Unit tests check the rules without a camera. The build check confirms the package and the six files. The offline photo check confirms the exported network on held-out still images. The device script is a person signing at a physical arm64 phone.</div>
+<p>Say this before any accuracy number: the still-photo score checks the pipeline. SignAlphaSet contains many near-duplicate frames of the same pose, and a random split can place near-copies on both sides. A very high photo score can appear even when a new hand, a new room, or a moving sign is harder. A perfect or near-perfect photo score is a reason to inspect duplicates. It is not a claim that every signer will be read correctly. Live results belong to the device procedure and are reported apart from the photo score.</p>
+<h3>Table 3.25, the phone script</h3>
+<table>
+  <caption>Device steps, short enough to recite</caption>
+  <thead><tr><th>Step</th><th>What we do</th><th>What should happen</th></tr></thead>
+  <tbody>
+    <tr><td>D-01</td><td>Open the app, allow the camera, no hand.</td><td>Preview runs. The letter stays blank. Nothing is written into a word.</td></tr>
+    <tr><td>D-02</td><td>Rest an open hand, without a letter, for several seconds.</td><td>The display stays blank. The spelling line does not gain a letter.</td></tr>
+    <tr><td>D-03</td><td>Hold each letter A–Z, palm to the lens, for about one second.</td><td>The matching letter appears. We note substitutions, especially M/N and U/R.</td></tr>
+    <tr><td>D-04</td><td>O with fingertips touching, then C with a gap.</td><td>O, then C.</td></tr>
+    <tr><td>D-05</td><td>Draw a Z with the index.</td><td>Z appears and stays briefly. A straight wave does not.</td></tr>
+    <tr><td>D-06</td><td>Double-tap the preview.</td><td>The camera changes, and a message names front or back.</td></tr>
+    <tr><td>D-07</td><td>Spelling on. Flash a letter, then hold a letter.</td><td>The flash does not join the word. The held letter joins once.</td></tr>
+    <tr><td>D-08</td><td>Spell a short word, Save, spell another, Backspace, Clear.</td><td>Save shows the word and empties the line. Backspace removes one letter. Clear removes the line and the saved word.</td></tr>
+    <tr><td>D-09</td><td>Turn the network off and repeat one letter.</td><td>The letter still appears. Recognition does not wait on a connection.</td></tr>
+  </tbody>
+</table>
+<p>A blank on a poorly formed sign is a pass of the rejection rule. A blank on a clear, held, palm-forward sign is a miss. Blanks on idle hands in D-01 and D-02 are successes and are reported separately from letter accuracy. Front-camera repeats are reported beside the back-camera result. The two are not averaged until both have been shown. No significance test is planned for a volunteer sample of this size. The result describes what that build did.</p>
+<p>Participants are volunteer signers. The developers are included, and classmates may take part if they agree. The chapter does not claim a fixed sample size or an ethics-board approval number, because the evaluation is of a software build rather than a clinical study. Each person is told that the camera stays on the phone, that no video is saved, and that they may stop at any time. The score sheet stores the letter outcome only: correct, substitution, or blank. It does not store a photograph. Clear is used before the phone is handed to the next person.</p>
+<h3>Unit tests you can name</h3>
+<ul>
+  <li><strong>Letter acceptance:</strong> a weak C, about 0.24, stays blank. A close second letter does not replace a clearer first letter. A drawn Z wins. A closed hand the network calls C, with gap 0.18, is shown as O. An open hand the network calls O, with gap 0.67, is shown as C.</li>
+  <li><strong>Z path:</strong> a drawn Z is accepted, including the mirrored direction. A still finger, a straight line, and a curled hand are rejected.</li>
+  <li><strong>Spelling buffer:</strong> five frames of the same letter do not enter the word. The sixth frame enters it once. Save, a new word, and Clear behave as specified.</li>
+  <li><strong>Word list:</strong> a listed word is found, a missing word is not, and prefix checks match the trie.</li>
+</ul>
+<h3>Table 3.26, threats — say the treatment, not only the problem</h3>
+<ul>
+  <li><strong>Near-duplicate images</strong> inflate still-photo accuracy. Treatment: the photo score is a pipeline check, and the device script is required.</li>
+  <li><strong>Few signers in the public set.</strong> A new hand can fall outside the training poses. Treatment: reported as a limit. No signer-level split was available.</li>
+  <li><strong>Closed fists missed by the detector,</strong> especially O and some of M, N, S, and T. Treatment: the phone threshold is 0.20. A remaining miss of that kind is a detection miss, not a letter-rule miss.</li>
+  <li><strong>Using the emulator as if it were a phone.</strong> x86_64 cannot load the hand tracker. Recognition results from that emulator are excluded. An open preview is not a recognition test.</li>
+  <li><strong>Thresholds tuned on the same people who demo the app.</strong> The gates can fit one room and one hand. Treatment: the thresholds are written in Table 3.16 and covered by tests, so a later change is visible. A broader signer study is future work. It is not a hidden result of this chapter.</li>
+</ul>
+<h3>When a build is ready to hand out</h3>
+<p>The unit tests pass. The debug package builds and contains the matching six files. Calibration temperature is 1.0 and the input size is 95 in both the model and the normalization file. D-01, D-02, D-06, D-07, and D-08 have been tried on a physical arm64 phone. D-03 through D-05 are the accuracy script and are reported with their misses. The photo hold-out may sit beside those device results. It may not replace them.</p>
+<h3>Questions</h3>
+<table>
+  <caption>3.9 — questions and the answer to give</caption>
+  <thead><tr><th>If they ask</th><th>Answer</th></tr></thead>
+  <tbody>
+    <tr><td class="q">What is your accuracy?</td><td>Chapter 3 is the method. The still-photo check is a pipeline check, and we do not present it as the live accuracy. Live letter accuracy is correct clear attempts divided by clear attempts in D-03, reported with the confusion list, and idle-hand blanks are reported separately because a blank there is a success.</td></tr>
+    <tr><td class="q">Why no p-value?</td><td>No significance test is planned for a volunteer sample of this size. The result describes what that build did.</td></tr>
+    <tr><td class="q">Is this an ethics-board study?</td><td>The chapter does not claim an ethics-board approval number. The evaluation is of a software build. Consent for the camera is the system permission dialog, plus a spoken explanation before Table 3.25: the camera stays on the phone, no video is saved, and the person may stop.</td></tr>
+    <tr><td class="q">Which pairs do you watch?</td><td>M with N, U with R, and C with O, because their landmarks are close. The O-versus-C gap and the easier rule for U are the design responses. They do not make those pairs impossible to confuse.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="traps">Answers that do not match the chapter</h2>
+<p>If one of these comes out, correct it in the next sentence. The right version is the one in the chapter.</p>
+<table>
+  <caption>Correct the answer before the panel does</caption>
+  <thead><tr><th>Easy to say</th><th>What the chapter actually says</th></tr></thead>
+  <tbody>
+    <tr><td class="q">We used the waterfall model.</td><td>We used iterative and incremental development (Sommerville, 2016). Figure 3.1 is the cycle. Table 3.4 is the evidence.</td></tr>
+    <tr><td class="q">The app is about 98 percent or 100 percent accurate.</td><td>A still-photo score is a pipeline check. Near-duplicate frames can make that score look easier than live signing. Live results come from the device script and are reported separately.</td></tr>
+    <tr><td class="q">It can translate the sign for “Hi.”</td><td>It fingerspells letters. A waved “Hi” is a different sign from the letters H and I. The phrase videos were not used. Retraining this alphabet network on still images does not create sentence recognition.</td></tr>
+    <tr><td class="q">We have a MySQL or SQLite database.</td><td>There is no database server and no SQLite. Figure 3.7 and Figure 3.8 are files plus memory.</td></tr>
+    <tr><td class="q">The numbers on the ERD are scores.</td><td>They are cardinality: 1, 0..1, and many.</td></tr>
+    <tr><td class="q">“Online use” means it needs the internet.</td><td>In Table 3.1 it means the running phone app. Recognition works with the network turned off. That is D-09.</td></tr>
+    <tr><td class="q">The temperature we shipped is 0.2.</td><td>0.2 was the fitted value we refused to ship. The released calibration file uses 1.0.</td></tr>
+    <tr><td class="q">Any second-place letter can replace the first if it is close.</td><td>A second-place letter cannot replace the first. The easier rule applies only when that letter is already first.</td></tr>
+    <tr><td class="q">An open palm saves the word.</td><td>That gesture was removed. Save is a button. An open palm was clearing real letters.</td></tr>
+    <tr><td class="q">We tested recognition on the Android emulator.</td><td>A 64-bit Intel emulator can show the preview and cannot load the hand tracker. Recognition results from it are excluded.</td></tr>
+    <tr><td class="q">The bars are a real glass blur.</td><td>They are translucent white. API 26 and the camera surface do not give a dependable blur.</td></tr>
+    <tr><td class="q">J and Z are both motion letters in the model.</td><td>A flicking J is outside the model. Z has a separate path check, and a still Z from the network is also allowed.</td></tr>
+    <tr><td class="q">The gap between thumb and index is one of the 95 features.</td><td>It is computed beside them, from landmarks 4 and 8, before the z-score. It is the O-versus-C rule, not a trained input.</td></tr>
+    <tr><td class="q">This package is ready for the Play Store.</td><td>It is a debug package for a class install. Shrinking and obfuscation are off.</td></tr>
+    <tr><td class="q">The surname on the title is Ybanez.</td><td>The spelling on the chapter is Rodgina Trogon Ybañez.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="drill">Fifteen questions to ask each other</h2>
+<p>Sit with the chapter closed. One person asks. The other answers in two or three sentences, then opens the chapter and checks the table named here. Trade roles after every question.</p>
+<ol>
+  <li>What is the practical question of the study? <span class="mono">3.1.1</span></li>
+  <li>Name the dataset, the license, the image count, and what we refused to use. <span class="mono">Table 3.2</span></li>
+  <li>Why is the method not waterfall? Give one failure that use uncovered. <span class="mono">3.2.1, Table 3.4</span></li>
+  <li>Walk Figure 3.1 in order, including the return arrow.</li>
+  <li>Who is the signer, and who is the reader? <span class="mono">3.3.1</span></li>
+  <li>Name three functional requirements and one non-functional requirement. <span class="mono">Tables 3.5 and 3.6</span></li>
+  <li>Point to the dashed box in Figure 3.2 and say whether the phone calls it.</li>
+  <li>Recite the frame path from camera to spelled letter. <span class="mono">Figure 3.3, Table 3.9</span></li>
+  <li>When does the screen show O, and when does it show C? <span class="mono">Table 3.16</span></li>
+  <li>Why does U not replace R? <span class="mono">Table 3.16, Figure 3.5</span></li>
+  <li>What do 3 frames and 6 frames each control?</li>
+  <li>Read one line of Figure 3.8, including the numbers, and say what 0..1 means.</li>
+  <li>Why is there no SQL database? <span class="mono">3.6.1</span></li>
+  <li>Which folder is opened in Android Studio, and where does a classmate get the installable file? <span class="mono">3.7 and 3.8</span></li>
+  <li>Why is a high score on still photos not the live accuracy? <span class="mono">3.9.4 and Table 3.26</span></li>
+</ol>
+<div class="say"><strong>Close the defense the same way the chapter closes.</strong> We built an on-device fingerspelling app, we changed it when real signing failed, and we wrote the test procedure that a later results chapter can follow. Sentence-level signs remain future work until there is a video set and a model built for motion.</div>
+
+</body>
+</html>

@@ -42,6 +42,21 @@ class LetterAcceptanceTest {
     }
 
     @Test
+    fun clearEnoughPIsShown() {
+        assertEquals("P", LetterAcceptance.choose("P", 0.56f, "K", 0.40f, 1.2f, 2.4f, false))
+    }
+
+    @Test
+    fun weakPStaysBlank() {
+        assertNull(LetterAcceptance.choose("P", 0.50f, "K", 0.40f, 1.4f, 2.4f, false))
+    }
+
+    @Test
+    fun secondPlacePDoesNotReplaceK() {
+        assertEquals("K", LetterAcceptance.choose("K", 0.80f, "P", 0.10f, 0.7f, 2.4f, false))
+    }
+
+    @Test
     fun drawnZWins() {
         assertEquals("Z", LetterAcceptance.choose("D", 0.90f, "G", 0.05f, 0.4f, 2.4f, true))
     }

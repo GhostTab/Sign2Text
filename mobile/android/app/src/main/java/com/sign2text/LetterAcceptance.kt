@@ -1,11 +1,11 @@
 package com.sign2text
 
 /**
- * C, M, N, O, T, U, and Z can show a little sooner than the other letters, but only
+ * C, M, N, O, P, T, U, and Z can show a little sooner than the other letters, but only
  * when that letter is clearly the best guess. A resting hand stays blank.
  */
 object LetterAcceptance {
-    val lenient = setOf("C", "M", "N", "O", "T", "U", "Z")
+    val lenient = setOf("C", "M", "N", "O", "P", "T", "U", "Z")
 
     private const val LENIENT_MIN_CONF = 0.55f
     private const val LENIENT_MIN_MARGIN = 0.12f

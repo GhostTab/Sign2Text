@@ -27,6 +27,21 @@ class LetterAcceptanceTest {
     }
 
     @Test
+    fun clearEnoughUIsShown() {
+        assertEquals("U", LetterAcceptance.choose("U", 0.56f, "R", 0.40f, 1.2f, 2.4f, false))
+    }
+
+    @Test
+    fun weakUStaysBlank() {
+        assertNull(LetterAcceptance.choose("U", 0.50f, "R", 0.40f, 1.4f, 2.4f, false))
+    }
+
+    @Test
+    fun secondPlaceUDoesNotReplaceR() {
+        assertEquals("R", LetterAcceptance.choose("R", 0.80f, "U", 0.10f, 0.7f, 2.4f, false))
+    }
+
+    @Test
     fun drawnZWins() {
         assertEquals("Z", LetterAcceptance.choose("D", 0.90f, "G", 0.05f, 0.4f, 2.4f, true))
     }

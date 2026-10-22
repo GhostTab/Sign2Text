@@ -674,7 +674,7 @@
       <text x="765" y="232" text-anchor="middle">Gap &lt; 0.42 → O</text>
       <text x="765" y="250" text-anchor="middle">Gap &gt; 0.48 → C</text>
       <rect x="280" y="286" width="360" height="44" rx="6" fill="#1e3a5f"/>
-      <text x="460" y="306" text-anchor="middle" fill="#fff">Top is C, M, N, O, P, T, U, or Z,</text>
+      <text x="460" y="306" text-anchor="middle" fill="#fff">Top is C, M, N, O, T, U, or Z,</text>
       <text x="460" y="322" text-anchor="middle" fill="#fff">score ≥ 0.55 and lead ≥ 0.12?</text>
       <rect x="300" y="360" width="320" height="44" rx="6" fill="#1e3a5f"/>
       <text x="460" y="378" text-anchor="middle" fill="#fff">Score ≥ 0.60, lead ≥ 0.18,</text>
@@ -710,7 +710,7 @@
   <tbody>
     <tr><td>Hand detection, presence, and tracking</td><td>0.20</td><td>A closed hand can still be found</td></tr>
     <tr><td>Probability average</td><td>0.70 on the new frame</td><td>Recent frames still matter, but a new pose is not ignored</td></tr>
-    <tr><td>Lenient letters C, M, N, O, P, T, U, Z</td><td>Score ≥ 0.55 and lead ≥ 0.12, and that letter is already first</td><td>A slightly imperfect sign can show. U is included because it was often confused with R. P is included because a held P was hard to keep on screen. A resting hand that is only vaguely like C cannot.</td></tr>
+    <tr><td>Lenient letters C, M, N, O, T, U, Z</td><td>Score ≥ 0.55 and lead ≥ 0.12, and that letter is already first</td><td>A slightly imperfect sign can show. U is included because it was often confused with R. A resting hand that is only vaguely like C cannot.</td></tr>
     <tr><td>Every other letter</td><td>Score ≥ 0.60, lead ≥ 0.18, entropy ≤ ln(26) × 0.75 ≈ 2.44</td><td>The top letter must be both likely and separated from the runner-up</td></tr>
     <tr><td>O versus C</td><td>Gap &lt; 0.42 is O. Gap &gt; 0.48 is C. Only if C or O is already first at the lenient bar.</td><td>Fingertips together read as O. A gap reads as C.</td></tr>
     <tr><td>Display confirm and clear</td><td>3 frames to show, 3 rejected frames to clear</td><td>A one-frame spike does not change the glyph</td></tr>
